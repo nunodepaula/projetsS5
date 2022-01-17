@@ -8,5 +8,7 @@ package fr.ensma.a3.ia.JeuMemoire.Cartes;
  *
  */
 public interface ICarte {
-
+	public void afficher();
+	public void cacher();
+	public void action() throws NotImplementedException;
 }
