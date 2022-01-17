@@ -12,39 +12,41 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import fr.ensma.a3.ia.dao.entity.PartieEntity;
+import fr.ensma.a3.ia.dao.entity.JoueurPartieEntity;
 
-public class PartiePoiDAO extends AbstractPoiDAO<PartieEntity>{
+
+public class JoueurPartiePoiDAO extends AbstractPoiDAO<JoueurPartieEntity>{
 	private static Logger LOGGER = Logger.getLogger(JoueurPoiDAO.class.getName());
 	@Override
-	public Optional<PartieEntity> getById(int id) {
+	public Optional<JoueurPartieEntity> getById(int id) {
 		XSSFWorkbook bdd = openBase();
-		Sheet tableadr = bdd.getSheet("Parties");
+		Sheet tableadr = bdd.getSheet("JoueursParties");
 		Iterator<Row> iterator = tableadr.iterator();
 		iterator.next();
 		boolean trouve = false;
-		PartieEntity partie = null;
+		JoueurPartieEntity joueurpartie = null;
 		while (iterator.hasNext() && !trouve) {
 			Row ligne = iterator.next();
-			partie = new PartieEntity();
+			joueurpartie = new JoueurPartieEntity();
 			if (id == (int)ligne.getCell(0).getNumericCellValue()) {
-				partie.setIdPartie((int)ligne.getCell(0).getNumericCellValue());
-				partie.setTaille((int)ligne.getCell(1).getNumericCellValue());
-				partie.setDifficulte((int)ligne.getCell(2).getNumericCellValue());
+				joueurpartie.setIdJP((int)ligne.getCell(0).getNumericCellValue());
+				joueurpartie.setIdPartie((int)ligne.getCell(1).getNumericCellValue());
+				joueurpartie.setJoueur((int)ligne.getCell(2).getNumericCellValue());
+				joueurpartie.setNbPair((int)ligne.getCell(3).getNumericCellValue());
 				trouve = true;
 			}
 		}
 		if (trouve) {
 			closeBase(bdd);
-			return Optional.of(partie);
+			return Optional.of(joueurpartie);
 		}
 		closeBase(bdd);
 		return Optional.empty();		
 	}
 	@Override
-	public Optional<PartieEntity> getByValue(PartieEntity elem) {
-		List<PartieEntity> listtemp = getAll();
-		for (PartieEntity ad : listtemp) {
+	public Optional<JoueurPartieEntity> getByValue(JoueurPartieEntity elem) {
+		List<JoueurPartieEntity> listtemp = getAll();
+		for (JoueurPartieEntity ad : listtemp) {
 			if (ad.equals(elem)) {
 				return Optional.of(ad);
 			}
@@ -53,27 +55,28 @@ public class PartiePoiDAO extends AbstractPoiDAO<PartieEntity>{
 	}
 
 	@Override
-	public List<PartieEntity> getAll() {
+	public List<JoueurPartieEntity> getAll() {
 		XSSFWorkbook bdd = openBase();
-		Sheet tableadr = bdd.getSheet("Parties");
-		ArrayList<PartieEntity> listeadr = new ArrayList<PartieEntity>();
+		Sheet tableadr = bdd.getSheet("JoueursParties");
+		ArrayList<JoueurPartieEntity> listeadr = new ArrayList<JoueurPartieEntity>();
 		Iterator<Row> iterator = tableadr.iterator();
 		iterator.next();
 		while (iterator.hasNext()) {
 			Row ligne = iterator.next();
-			PartieEntity partie = new PartieEntity();
+			JoueurPartieEntity joueurpartie = new JoueurPartieEntity();
 			Iterator<Cell> cellIterator = ligne.iterator();
 			Cell cellule = cellIterator.next();
-			partie.setIdPartie((int)ligne.getCell(0).getNumericCellValue());
-			partie.setTaille((int)ligne.getCell(1).getNumericCellValue());
-			partie.setDifficulte((int)ligne.getCell(2).getNumericCellValue());
-			listeadr.add(partie);
+			joueurpartie.setIdJP((int)ligne.getCell(0).getNumericCellValue());
+			joueurpartie.setIdPartie((int)ligne.getCell(1).getNumericCellValue());
+			joueurpartie.setJoueur((int)ligne.getCell(2).getNumericCellValue());
+			joueurpartie.setNbPair((int)ligne.getCell(3).getNumericCellValue());
+			listeadr.add(joueurpartie);
 		}
 		closeBase(bdd);
 		return listeadr;
 	}
 	@Override
-	public void create(PartieEntity elem) {
+	public void create(JoueurPartieEntity elem) {
 		if (getByValue(elem).isEmpty()) {
 			XSSFWorkbook bdd = openBase();
 			Sheet tableadr = bdd.getSheet("Parties");
@@ -82,11 +85,11 @@ public class PartiePoiDAO extends AbstractPoiDAO<PartieEntity>{
 			elem.setIdPartie(lid + 1);
 			Row ligne = tableadr.createRow(lrow + 1);
 			Cell cell = ligne.createCell(0);
-			cell.setCellValue(elem.getId());
+			cell.setCellValue(elem.getIdPartie());
 			cell = ligne.createCell(1);
-			cell.setCellValue(elem.getTaille());
+			cell.setCellValue(elem.getJoueurId());
 			cell = ligne.createCell(2);
-			cell.setCellValue(elem.getDifficulte());
+			cell.setCellValue(elem.getNbpair());
 			cell = ligne.createCell(3);
 			writeBase(bdd);
 			closeBase(bdd);
@@ -97,19 +100,19 @@ public class PartiePoiDAO extends AbstractPoiDAO<PartieEntity>{
 	}
 
 	@Override
-	public void update(PartieEntity elem) {
+	public void update(JoueurPartieEntity elem) {
 		XSSFWorkbook bdd = openBase();
-		Sheet tableadr = bdd.getSheet("Parties");
+		Sheet tableadr = bdd.getSheet("JoueursParties");
 		Iterator<Row> iterator = tableadr.iterator();
 		iterator.next();
 		boolean trouve = false;
 		while (iterator.hasNext() && !trouve) {
 			Row ligne = iterator.next();
-			if (elem.getId() == (int) ligne.getCell(0).getNumericCellValue()) {
+			if (elem.getIdJP() == (int) ligne.getCell(0).getNumericCellValue()) {
 				trouve = true;
-				ligne.getCell(1).setCellValue(elem.getId());
-				ligne.getCell(2).setCellValue(elem.getTaille());
-				ligne.getCell(3).setCellValue(elem.getDifficulte());
+				ligne.getCell(1).setCellValue(elem.getIdPartie());
+				ligne.getCell(2).setCellValue(elem.getJoueurId());
+				ligne.getCell(3).setCellValue(elem.getNbpair());
 				writeBase(bdd);
 			}
 		}
@@ -121,15 +124,15 @@ public class PartiePoiDAO extends AbstractPoiDAO<PartieEntity>{
 	}
 
 	@Override
-	public void delete(PartieEntity elem) {
+	public void delete(JoueurPartieEntity elem) {
 		XSSFWorkbook bdd = openBase();
-		Sheet tableadr = bdd.getSheet("Parties");
+		Sheet tableadr = bdd.getSheet("JoueursParties");
 		Iterator<Row> iterator = tableadr.iterator();
 		iterator.next();
 		boolean trouve = false;
 		while (iterator.hasNext() && !trouve) {
 			Row ligne = iterator.next();
-			if (elem.getId() == (int) ligne.getCell(0).getNumericCellValue()) {
+			if (elem.getIdJP() == (int) ligne.getCell(0).getNumericCellValue()) {
 				trouve = true;
 				removeRow(tableadr, ligne.getRowNum());
 				writeBase(bdd);
@@ -141,7 +144,4 @@ public class PartiePoiDAO extends AbstractPoiDAO<PartieEntity>{
 		}
 		closeBase(bdd);
 	}	
-	
-	
-	
 }
