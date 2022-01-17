@@ -1,26 +1,33 @@
 /**
  * 
  */
-package fr.ensma.a3.ia.JeuMemoire;
+package fr.ensma.a3.ia.JeuMemoire.Joueurs;
+
+import fr.ensma.a3.ia.JeuMemoire.Joueurs.automateJoueurs.IEtatJoueurs;
 
 /**
  * @author alvaresn
  *
  */
-public class Joueur {
+public abstract class AJoueur {
 
 	private String nom;
 	private String prenom;
 	private String email;
 	private String pseudo;
 	
+	/*Etats*/
+	private IEtatJoueurs EtatEnJeu;
+	private IEtatJoueurs EtatEnAttente;
+	private IEtatJoueurs EtatCourant;
+
 	/**
 	 * @param nom
 	 * @param prenom
 	 * @param email
 	 * @param pseudo
 	 */
-	public Joueur(String nom, String prenom, String email, String pseudo) {
+	public AJoueur(String nom, String prenom, String email, String pseudo) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
@@ -86,5 +93,22 @@ public class Joueur {
 	
 	public void tirerCarte(Integer ligne1, Integer colonne1, Integer ligne2, Integer colonne2) {
 		
+	}
+	
+	/*Fonctions Associées aux états*/
+	public IEtatJoueurs getEtatCourant() {
+		return EtatCourant;
+	}
+
+	public void setEtatCourant(IEtatJoueurs etatCourant) {
+		EtatCourant = etatCourant;
+	}
+
+	public IEtatJoueurs getEtatEnJeu() {
+		return EtatEnJeu;
+	}
+
+	public IEtatJoueurs getEtatEnAttente() {
+		return EtatEnAttente;
 	}
 }

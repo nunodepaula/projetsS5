@@ -12,15 +12,15 @@ import fr.ensma.a3.ia.JeuMemoire.Cartes.ICarte;
  * @author alvaresn
  *
  */
-public class Lignes extends BaseJeu {
+public class Lignes extends AElementJeu {
 
 	private List<ICarte> colonnes;
 
 	/**
 	 * @param taillePlateau
 	 */
-	public Lignes(Integer taillePlateau) {
-		super(taillePlateau);
+	public Lignes(BaseJeu base) {
+		super(base);
 		colonnes = new ArrayList<ICarte>();
 	}
 
@@ -39,7 +39,7 @@ public class Lignes extends BaseJeu {
 	}
 
 	public void ajouterColonne(ICarte c) {
-		if (colonnes.size() < taillePlateau) {
+		if (colonnes.size() < base.getTaillePlateau()) {
 			colonnes.add(c);
 			System.out.println("Colonne ajoutée à la ligne");
 		} else {
