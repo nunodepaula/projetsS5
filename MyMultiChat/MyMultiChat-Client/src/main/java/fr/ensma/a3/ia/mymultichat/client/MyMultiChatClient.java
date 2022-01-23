@@ -19,7 +19,8 @@ import jakarta.ws.rs.core.MediaType;
 
 public class MyMultiChatClient {
 	
-	private static final String SERVER = "ws://localhost:8080/ws/multichat";
+	//private static final String SERVER = "ws://localhost:8080/ws/multichat";
+	private static final String SERVER = "ws://localhost:8080/ws/chaudfroid";
 	private static final String REST_URI = "http://localhost:8080/services/multichat/";
 	private static final String REST_CANAUX_URI = "http://localhost:8080/services/canaux-disponibles";
 
