@@ -66,7 +66,7 @@ public class ChaudFroidServerEndPoint {
 			tour.put(canalId, q);
 			
 			Random rand = new Random();
-			Integer valeur = rand.nextInt();
+			Integer valeur = rand.nextInt(100);
 			valeurs.put(canalId, valeur);
 		}
 	}
