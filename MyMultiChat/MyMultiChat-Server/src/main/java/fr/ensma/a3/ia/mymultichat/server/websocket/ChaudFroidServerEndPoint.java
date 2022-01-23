@@ -148,8 +148,13 @@ public class ChaudFroidServerEndPoint {
 		//clients.remove(sess);
 		
 		String canalId = sess.getUserProperties().get("canalId").toString();
+		String pseudo = sess.getUserProperties().get("pseudo").toString();
 		dictionary.get(canalId).remove(sess);
 		Set<Session> clients = dictionary.get(canalId);
+		
+		Queue<String> queueTour = tour.get(canalId);
+		queueTour.remove(pseudo);
+		tour.put(canalId, queueTour);
 		
 		ClientMessage mess = new ClientMessage();
 		for (Session client : clients) {
