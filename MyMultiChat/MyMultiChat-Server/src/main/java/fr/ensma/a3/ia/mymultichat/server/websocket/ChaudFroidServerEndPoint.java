@@ -41,6 +41,7 @@ public class ChaudFroidServerEndPoint {
 	
 	@OnOpen
 	public void onOpen(@PathParam("canalandpseudo") String canalandpseudo, Session sess, EndpointConfig endpointConfig) {
+		System.out.println("Nouveau joueur au chaud froid");
 		System.out.println(sess.getId() + " vient de se connecter au canal " + canalandpseudo);
 		String[] params = canalandpseudo.split(":");
 		sess.getUserProperties().put("pseudo", params[1]);
