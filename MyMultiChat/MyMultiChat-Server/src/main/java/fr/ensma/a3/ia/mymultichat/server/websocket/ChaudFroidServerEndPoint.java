@@ -116,22 +116,27 @@ public class ChaudFroidServerEndPoint {
 			for (Session client : clients) {
 				if (client.getUserProperties().get("pseudo").toString() == prochainJoueur) {
 					messServer.setLeContenu("À ton tour !");
+					try {
+						client.getBasicRemote().sendObject(messServer);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (EncodeException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
-		}
-		
-		
-		for (Session client : clients) {
-			if (!sess.getId().equals(client.getId())) {
-				try {
-					client.getBasicRemote().sendObject(mess);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (EncodeException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		} else {
+			messServer.setLeContenu("Il faut attendre ton tour");
+			try {
+				sess.getBasicRemote().sendObject(messServer);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (EncodeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
