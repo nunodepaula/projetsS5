@@ -92,9 +92,22 @@ public class ChaudFroidServerEndPoint {
 			
 			if (contenuValeur == valeur) {
 				messServer.setLeContenu(pseudo + " a envoyé : " + contenu + " - Trouvé !!");
-				for (Session client : clients) {
-					onClose(client);
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				
+				for (Session client : clients) {
+					try {
+						client.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
 			} else if (contenuValeur > valeur) {
 				messServer.setLeContenu(pseudo + " a envoyé : " + contenu + " - Trop grand");
 			} else {
@@ -178,7 +191,6 @@ public class ChaudFroidServerEndPoint {
 			dictionary.remove(canalId);
 			tour.remove(canalId);
 			valeurs.remove(canalId);
-			System.out.println("Canal " + canalId + " a été fermé");
 		}
 	}
 	
