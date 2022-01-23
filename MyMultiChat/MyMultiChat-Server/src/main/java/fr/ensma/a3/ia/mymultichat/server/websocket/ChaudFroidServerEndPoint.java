@@ -99,15 +99,6 @@ public class ChaudFroidServerEndPoint {
 					e.printStackTrace();
 				}
 				
-				for (Session client : clients) {
-					try {
-						client.close();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				
 			} else if (contenuValeur > valeur) {
 				messServer.setLeContenu(pseudo + " a envoyé : " + contenu + " - Trop grand");
 			} else {
@@ -126,21 +117,32 @@ public class ChaudFroidServerEndPoint {
 				}
 			}
 			
-			// Changer le tour
-			queueTour.remove();
-			queueTour.add(pseudoTour);
-			String prochainJoueur = queueTour.peek();
-			for (Session client : clients) {
-				if (client.getUserProperties().get("pseudo").toString() == prochainJoueur) {
-					messServer.setLeContenu("À ton tour !");
+			if (contenuValeur == valeur) {
+				for (Session client : clients) {
 					try {
-						client.getBasicRemote().sendObject(messServer);
+						client.close();
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					} catch (EncodeException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					}
+				}
+			} else {
+				// Changer le tour
+				queueTour.remove();
+				queueTour.add(pseudoTour);
+				String prochainJoueur = queueTour.peek();
+				for (Session client : clients) {
+					if (client.getUserProperties().get("pseudo").toString() == prochainJoueur) {
+						messServer.setLeContenu("À ton tour !");
+						try {
+							client.getBasicRemote().sendObject(messServer);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (EncodeException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}
 			}

@@ -59,8 +59,12 @@ public class MyMultiChatClient {
 			sess.getUserProperties().put("Pseudo", pseudo);
 			do {
 				blabla = scan.nextLine();
-				sess.getBasicRemote().sendText(formatMessage(pseudo, blabla));
-			} while(!blabla.equalsIgnoreCase("quit") && sess.isOpen());
+				if (sess.isOpen()) {
+					sess.getBasicRemote().sendText(formatMessage(pseudo, blabla));
+				} else {
+					blabla = "quit";
+				}
+			} while(!blabla.equalsIgnoreCase("quit"));
 			
 		} catch (DeploymentException e) {
 			// TODO Auto-generated catch block
