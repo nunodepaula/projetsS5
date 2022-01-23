@@ -60,7 +60,7 @@ public class MyMultiChatClient {
 			do {
 				blabla = scan.nextLine();
 				sess.getBasicRemote().sendText(formatMessage(pseudo, blabla));
-			} while(!blabla.equalsIgnoreCase("quit"));
+			} while(!blabla.equalsIgnoreCase("quit") && sess.isOpen());
 			
 		} catch (DeploymentException e) {
 			// TODO Auto-generated catch block
