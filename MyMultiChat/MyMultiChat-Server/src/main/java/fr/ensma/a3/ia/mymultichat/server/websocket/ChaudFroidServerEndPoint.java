@@ -119,6 +119,7 @@ public class ChaudFroidServerEndPoint {
 			
 			if (contenuValeur == valeur) {
 				for (Session client : clients) {
+					onClose(client);
 					try {
 						client.close();
 					} catch (IOException e) {

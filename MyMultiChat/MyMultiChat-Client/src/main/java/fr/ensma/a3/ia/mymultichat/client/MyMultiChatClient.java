@@ -58,6 +58,9 @@ public class MyMultiChatClient {
 			Session sess = client.connectToServer(MultiChatClientEndPoint.class, URI.create(SERVER+"/"+canalId+":"+pseudo));
 			sess.getUserProperties().put("Pseudo", pseudo);
 			do {
+				if (!sess.isOpen()) {
+					break;
+				}
 				blabla = scan.nextLine();
 				if (sess.isOpen()) {
 					sess.getBasicRemote().sendText(formatMessage(pseudo, blabla));
