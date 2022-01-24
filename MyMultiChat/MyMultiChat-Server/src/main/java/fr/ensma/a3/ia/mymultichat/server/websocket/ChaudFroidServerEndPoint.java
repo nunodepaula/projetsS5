@@ -127,8 +127,6 @@ public class ChaudFroidServerEndPoint {
 				try {
 					sess.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 				}
 			} else {
