@@ -92,13 +92,6 @@ public class ChaudFroidServerEndPoint {
 			
 			if (contenuValeur == valeur) {
 				messServer.setLeContenu(pseudo + " a envoyé : " + contenu + " - Trouvé !!");
-				try {
-					Thread.sleep(5000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
 			} else if (contenuValeur > valeur) {
 				messServer.setLeContenu(pseudo + " a envoyé : " + contenu + " - Trop grand");
 			} else {
@@ -116,16 +109,28 @@ public class ChaudFroidServerEndPoint {
 					e.printStackTrace();
 				}
 			}
-			
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if (contenuValeur == valeur) {
 				for (Session client : clients) {
-					onClose(client);
-					try {
-						client.close();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					if (!sess.getId().equals(client.getId())) {
+						try {
+							client.close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
+				try {
+					sess.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				}
 			} else {
 				// Changer le tour
