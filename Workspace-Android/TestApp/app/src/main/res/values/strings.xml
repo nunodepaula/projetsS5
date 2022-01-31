@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TestApp</string>
+    <string name="str_bouton">Click</string>
+    <string name="str_sortie">Hello</string>
+</resources>
