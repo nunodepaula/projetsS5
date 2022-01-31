@@ -91,7 +91,8 @@ public class ChaudFroidServerEndPoint {
 			Integer contenuValeur = Integer.valueOf(contenu);
 			
 			if (contenuValeur == valeur) {
-				messServer.setLeContenu(pseudo + " a envoyé : " + contenu + " - Trouvé !!");
+				messServer.setLeContenu(pseudo + " a envoyé : " + contenu + " - Trouvé !!" + 
+						" /n Canal doconnecté, tapez entrer pour continuer");
 			} else if (contenuValeur > valeur) {
 				messServer.setLeContenu(pseudo + " a envoyé : " + contenu + " - Trop grand");
 			} else {
@@ -109,27 +110,23 @@ public class ChaudFroidServerEndPoint {
 					e.printStackTrace();
 				}
 			}
-			try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			if (contenuValeur == valeur) {
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				for (Session client : clients) {
 					if (!sess.getId().equals(client.getId())) {
 						try {
 							client.close();
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
 						}
 					}
 				try {
 					sess.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 				}
 			} else {

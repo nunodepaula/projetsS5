@@ -18,9 +18,9 @@ import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 
 public class MyMultiChatClient {
-	
-	//private static final String SERVER = "ws://localhost:8080/ws/multichat";
-	private static final String SERVER = "ws://localhost:8080/ws/chaudfroid";
+
+	private static final String SERVER_multichat = "ws://localhost:8080/ws/multichat";
+	private static final String SERVER_cf = "ws://localhost:8080/ws/chaudfroid";
 	private static final String REST_URI = "http://localhost:8080/services/multichat/";
 	private static final String REST_CANAUX_URI = "http://localhost:8080/services/canaux-disponibles";
 
@@ -28,34 +28,50 @@ public class MyMultiChatClient {
 
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
-		
-		//Appel du service pour recupérer un canal depuis un ID
+
+		// Appel du service pour recupérer un canal depuis un ID
 		Client restclient = ClientBuilder.newClient();
-		
-		List<String> canaux = restclient.target(REST_CANAUX_URI).request(MediaType.APPLICATION_JSON).get(new GenericType<List<String>> () {});
+
+		List<String> canaux = restclient.target(REST_CANAUX_URI).request(MediaType.APPLICATION_JSON)
+				.get(new GenericType<List<String>>() {
+				});
 		System.out.println("Bienvenu sur MultiChat !!");
+		System.out.println("Vous voulez se connecter au :");
+		System.out.println("  1 - Multichat");
+		System.out.println("  2 - Jeu Chaud-Froid");
+		String SERVER = "";
+		while (SERVER == "") {
+			int mode = scan.nextInt();
+			if (mode == 1) {
+				SERVER = SERVER_multichat;
+			} else if (mode == 2) {
+				SERVER = SERVER_cf;
+			}
+		}
 		System.out.println("Voici la liste des canaux disponibles");
-		for (String canal: canaux) {
+		for (String canal : canaux) {
 			System.out.println(canal);
 		}
-		
+
 		System.out.println("Entrez l'id du canal que vous voulez se connecter :");
 		int canalId = scan.nextInt();
 		scan.nextLine();
-		
-		ChatCanalDesc rep = restclient.target(REST_URI).path(String.valueOf(canalId-1)).request(MediaType.APPLICATION_JSON).get(ChatCanalDesc.class);
+
+		ChatCanalDesc rep = restclient.target(REST_URI).path(String.valueOf(canalId - 1))
+				.request(MediaType.APPLICATION_JSON).get(ChatCanalDesc.class);
 		System.out.println(rep);
-		
+
 		ClientManager client = ClientManager.createClient();
 		String blabla;
-		
-		//Connexion au serveur :
-		
+
+		// Connexion au serveur :
+
 		System.out.println("Bienvenu sur MultiChat - " + rep.toString());
 		System.out.println("Donne ton pseudo : ");
 		String pseudo = scan.nextLine();
 		try {
-			Session sess = client.connectToServer(MultiChatClientEndPoint.class, URI.create(SERVER+"/"+canalId+":"+pseudo));
+			Session sess = client.connectToServer(MultiChatClientEndPoint.class,
+					URI.create(SERVER + "/" + canalId + ":" + pseudo));
 			sess.getUserProperties().put("Pseudo", pseudo);
 			do {
 				if (!sess.isOpen()) {
@@ -67,8 +83,8 @@ public class MyMultiChatClient {
 				} else {
 					blabla = "quit";
 				}
-			} while(!blabla.equalsIgnoreCase("quit"));
-			
+			} while (!blabla.equalsIgnoreCase("quit"));
+
 		} catch (DeploymentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -77,15 +93,15 @@ public class MyMultiChatClient {
 			e.printStackTrace();
 		} finally {
 			scan.close();
-		}	
+		}
 	}
-	
+
 	private static String formatMessage(String pseu, String bla) {
 		ClientMessage m = new ClientMessage();
-        m.setCanalId(0);
-        m.setLePseudo(pseu);
-        m.setLeContenu(bla);
-        return gson.toJson(m);
-    }
+		m.setCanalId(0);
+		m.setLePseudo(pseu);
+		m.setLeContenu(bla);
+		return gson.toJson(m);
+	}
 
 }
