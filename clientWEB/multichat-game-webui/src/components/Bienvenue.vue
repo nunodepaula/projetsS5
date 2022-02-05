@@ -7,7 +7,11 @@
           <h4>
               <navigation v-if="!$route.params.lenom == ''" :url="homeurl" desc=" Maison "/>
               <span v-if="!$route.params.lenom == ''"> - </span>
+              <navigation v-if="!$route.params.lenom == ''" :url="lechaturl" desc=" Discutons "/>
+               <span v-if="!$route.params.lenom == ''"> - </span>
               <navigation v-if="!$route.params.lenom == ''" :url="byeurl" desc=" Au Revoir ... " @click="effaceTout"/>
+              <span v-if="!$route.params.lenom == ''"> - </span>
+              <navigation v-if="!$route.params.lenom == ''" :url="tictactoeurl" desc=" TicTacToe "/>
           </h4>
       </nav>
   </div>
@@ -33,7 +37,9 @@ export default {
       return {
           message : "",
           homeurl: "/",
-          byeurl: "/"
+          byeurl: "/",
+          tictactoeurl:"/",
+          lechaturl:"/"
       }
   },
   props: {
@@ -48,6 +54,8 @@ export default {
       setUser(){
           this.message = this.$store.getters.getLeUser;
           this.homeurl = '/maison/' + this.$store.getters.getLeUser;
+          this.tictactoeurl= '/maison/' + this.$store.getters.getLeUser+'/tictactoe';
+          this.lechaturl='/maison/' + this.$store.getters.getLeUser+'/lechat';
       },
       effaceTout(){
           sessionStorage.clear();
