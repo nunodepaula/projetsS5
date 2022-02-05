@@ -28,7 +28,7 @@ public class CanauxDisponibles {
 		}
 
 		try {
-			return Response.ok(canaux).build();
+			return Response.ok(canaux).header("Access-Control-Allow-Origin", "*").build();
 		} catch (IndexOutOfBoundsException ex) {
 			return Response.noContent().build();
 		}
