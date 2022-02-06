@@ -1,28 +1,10 @@
 <template>
-  <table id="liste-chat">
-    <thead>
-      <tr>
-        <th>N°</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="row in this.leschat" :key="row">
-        <td>{{ row.canalId }}</td>
-        <td>{{ row.canalName }}</td>
-      </tr>
-    </tbody>
-  </table>
-  <button @click="chatConnect">Blablabla ...</button>
-  <div>
-    <span><pre>{{ chatAllMessage }}</pre></span>
-  </div>
-  <input v-model="reponse" style="width:300px"/>
-  <button @click="sendReponse">répondre ...</button>
-  <p>
-  <button @click="chatBye">ByeBye ...</button>
-  </p>
+    <div>
+    <h1>Mon app</h1>
+    {{ info }}
+    </div>
 </template>
+
 <script>
 import axios from "axios";
 export default {
