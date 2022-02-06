@@ -1,8 +1,9 @@
-<div>
-<h1>Mon app</h1>
-  {{ info }}
-</div>
-
+<template>
+    <div>
+    <h1>Mon app</h1>
+    {{ info }}
+    </div>
+</template>
 
 <script>
 import axios from "axios"
