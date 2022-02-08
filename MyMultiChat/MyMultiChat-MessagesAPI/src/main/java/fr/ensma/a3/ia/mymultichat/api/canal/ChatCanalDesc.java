@@ -1,15 +1,18 @@
 package fr.ensma.a3.ia.mymultichat.api.canal;
 
+
+
 public class ChatCanalDesc {
 
 	private int canalId;
 	private String canalName;
-
 	public ChatCanalDesc() {}
 	
 	public ChatCanalDesc(final int cid, final String name) {
 		canalId = cid;
 		canalName = name;
+		
+				
 	}
 	
 	

@@ -3,17 +3,20 @@
  */
 package fr.ensma.a3.ia.JeuMemoire.Joueurs.automateJoueurs;
 
+import fr.ensma.a3.ia.JeuMemoire.Joueurs.AJoueur;
+
 /**
  * @author nunod
  *
  */
 public class AEtatJoueur implements IEtatJoueurs {
-
+	protected AJoueur monJoueur;
 	/**
 	 * 
 	 */
-	public AEtatJoueur() {
+	public AEtatJoueur(AJoueur monJoueur) {
 		// TODO Auto-generated constructor stub
+		this.monJoueur=monJoueur;
 	}
 
 	@Override

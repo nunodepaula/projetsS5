@@ -1,16 +1,10 @@
 package fr.ensma.a3.ia.JeuMemoire.Cartes;
 
-public abstract class ACarteMagique implements ICarteMystere{
-	private ICarteMystere carteMystere;
-	public ACarteMagique(ICarteMystere macarteMystere) {
-		carteMystere=macarteMystere;
-	}
-	@Override
-	public void effetSpecial() {
-		carteMystere.effetSpecial();
-	}
-	@Override
-	public Plateau getPlateau() {
-		return carteMystere.getPlateau();
-	}
+import fr.ensma.a3.ia.JeuMemoire.Plateau;
+
+public abstract class ACarteMagique extends ACarte implements ICarteMystere {
+	
+	public ACarteMagique(String nom, Plateau unPlateau) {
+		super(nom,unPlateau);
+	}	
 }

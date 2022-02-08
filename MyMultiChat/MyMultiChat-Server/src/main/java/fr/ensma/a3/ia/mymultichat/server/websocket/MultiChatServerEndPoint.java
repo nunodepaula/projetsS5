@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import javax.websocket.EncodeException;
@@ -17,6 +18,7 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
+
 import fr.ensma.a3.ia.mymultichat.api.messages.client.ClientMessage;
 import fr.ensma.a3.ia.mymultichat.api.messages.client.ClientMessageDecoder;
 import fr.ensma.a3.ia.mymultichat.api.messages.client.ClientMessageEncoder;
@@ -25,6 +27,7 @@ import fr.ensma.a3.ia.mymultichat.api.messages.client.ClientMessageEncoder;
 @ServerEndpoint(value = "/ws/multichat/{canalandpseudo}", encoders = ClientMessageEncoder.class, decoders = ClientMessageDecoder.class)
 public class MultiChatServerEndPoint {
 	
+    
 	static Map<String, Set<Session>> dictionary = new HashMap<String, Set<Session>>();
 	//static Set<Session> clients = Collections.synchronizedSet(new HashSet<Session>());
 
@@ -49,16 +52,17 @@ public class MultiChatServerEndPoint {
 
 	//Réaction du serveur à la réception du serveur
 	@OnMessage
-	public void onMessage(ClientMessage mess, Session sess) {
+	public void onMessage(Object mess, Session sess) {
 		String canalId = sess.getUserProperties().get("canalId").toString();
-		
 		Set<Session> clients = dictionary.get(canalId);
 		
 		for (Session client : clients) {
 			if (!sess.getId().equals(client.getId())) {
 				try {
 					client.getBasicRemote().sendObject(mess);
-				} catch (IOException e) {
+						
+					}
+				 catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (EncodeException e) {

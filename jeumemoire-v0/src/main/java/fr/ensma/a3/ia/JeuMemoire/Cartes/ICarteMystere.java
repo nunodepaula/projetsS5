@@ -1,6 +1,8 @@
 package fr.ensma.a3.ia.JeuMemoire.Cartes;
 
-public interface ICarteMystere {
+import fr.ensma.a3.ia.JeuMemoire.Plateau;
+
+public interface ICarteMystere extends ICarte{
 	public void effetSpecial();
 	public Plateau getPlateau();
 }
