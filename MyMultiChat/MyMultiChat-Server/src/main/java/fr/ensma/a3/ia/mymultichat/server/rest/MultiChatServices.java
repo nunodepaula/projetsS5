@@ -28,6 +28,7 @@ public class MultiChatServices {
         } catch (IndexOutOfBoundsException ex) {
         	return Response.noContent().build();
         }
+        
 	}
 	
 }
