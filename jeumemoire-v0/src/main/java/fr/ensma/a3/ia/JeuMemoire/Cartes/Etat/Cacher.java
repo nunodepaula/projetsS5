@@ -8,6 +8,6 @@ public class Cacher extends AEtatCarte{
 	}
 	@Override
 	public void afficher() {
-		uneCarte.setEtatCourant(uneCarte.getAfficher());
+		uneCarte.setEtatCourant(uneCarte.getCacher());
 	}
 }
