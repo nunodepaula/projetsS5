@@ -1,6 +1,6 @@
 package fr.ensma.a3.ia;
 
-import fr.ensma.a3.ia.JeuMemoire.BaseJeu;
+
 import fr.ensma.a3.ia.JeuMemoire.Partie;
 import fr.ensma.a3.ia.JeuMemoire.Plateau;
 import fr.ensma.a3.ia.JeuMemoire.Cartes.CarteSimple;
@@ -26,7 +26,7 @@ public class App {
 		CarteSimple carte1D = new CarteSimple("D", monPlateau);
 		CarteSimple carte2D = new CarteSimple("D", monPlateau);
 		ICarteMystere monmelange = new MelangeTout(monPlateau);
-		BaseJeu mabase=new BaseJeu(3,9);
+		
 		//Partie maPartie=new Partie(mabase,monPlateau);
 	//	JoueurPhysique joueur1=new JoueurPhysique("Dupond","Jacques","jacques@hotmail.fr","jacques",maPartie);
 		//JoueurPhysique joueur2=new JoueurPhysique("Leponge","Bob","bob@hotmail.fr","bob",maPartie);

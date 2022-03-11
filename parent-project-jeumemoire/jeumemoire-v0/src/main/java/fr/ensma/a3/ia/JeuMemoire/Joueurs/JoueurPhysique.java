@@ -20,7 +20,6 @@ public class JoueurPhysique extends AJoueur {
 	 */
 	public JoueurPhysique(String nom, String prenom, String email, String pseudo,Partie maPartie) {
 		super(nom, prenom, email, pseudo,maPartie);
-		 //maPartie.ajouterJoueur(this);
 		// TODO Auto-generated constructor stub
 	}
 

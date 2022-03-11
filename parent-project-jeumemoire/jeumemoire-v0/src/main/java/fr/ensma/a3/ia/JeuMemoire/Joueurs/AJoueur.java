@@ -13,7 +13,8 @@ import fr.ensma.a3.ia.JeuMemoire.Cartes.ACarte;
 import fr.ensma.a3.ia.JeuMemoire.Cartes.ICarte;
 import fr.ensma.a3.ia.JeuMemoire.Cartes.Etat.TransitionNonTirableException;
 import fr.ensma.a3.ia.JeuMemoire.Joueurs.automateJoueurs.EnAttente;
-import fr.ensma.a3.ia.JeuMemoire.Joueurs.automateJoueurs.EnJeu;
+import fr.ensma.a3.ia.JeuMemoire.Joueurs.automateJoueurs.PremierTirage;
+import fr.ensma.a3.ia.JeuMemoire.Joueurs.automateJoueurs.SecondTirage;
 import fr.ensma.a3.ia.JeuMemoire.Joueurs.automateJoueurs.IEtatJoueurs;
 import fr.ensma.a3.ia.JeuMemoire.Joueurs.automateJoueurs.TransitionNonPermisException;
 
@@ -30,8 +31,9 @@ public abstract class AJoueur{
 	private Partie maPartie;
 	protected List<ICarte> carteGagne;
 	/*Etats*/
-	private IEtatJoueurs EtatEnJeu=new EnJeu(this);
+	private IEtatJoueurs EtatPremierTirage=new PremierTirage(this);
 	private IEtatJoueurs EtatEnAttente=new EnAttente(this);
+	private IEtatJoueurs EtatSecondTirage=new SecondTirage(this);
 	private IEtatJoueurs EtatCourant;
 	private Integer score;
 
@@ -102,7 +104,10 @@ public abstract class AJoueur{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
+	
+	public void setPartie(Partie nouvelPartie) {
+		this.maPartie=nouvelPartie;
+	}
 	/**
 	 * @return the pseudo
 	 */
@@ -110,8 +115,9 @@ public abstract class AJoueur{
 		return pseudo;
 	}
 	
-	public void tirerCarte(Integer colonne1,Integer ligne1) {
+	public ICarte tirerCarte(Integer colonne1,Integer ligne1) {
 		this.maPartie.getPlateau().getCartes().get(ligne1).get(colonne1).afficher();
+		return maPartie.getPlateau().getCartes().get(ligne1).get(colonne1);
 	}
 	/**
 	 * @param pseudo the pseudo to set
@@ -142,26 +148,40 @@ public abstract class AJoueur{
 		EtatCourant = etatCourant;
 	}
 
-	public IEtatJoueurs getEtatEnJeu() {
-		return EtatEnJeu;
+	public IEtatJoueurs getEtatPremierTirage() {
+		return EtatPremierTirage;
 	}
 
 	public IEtatJoueurs getEtatEnAttente() {
 		return EtatEnAttente;
 	}
 	
+	public IEtatJoueurs getEtatSecondTirage() {
+		return EtatSecondTirage;
+	}
+	
+
+	
+	public void secondTirage() {
+		try {
+			EtatCourant.secondTour();
+			System.out.println("Joueur"+pseudo+"second tirage");
+		} catch(TransitionNonPermisException e) {
+			System.out.println("Demon non accepte");
+			}
+	}
 	
 	public void aTontour() {
 		try {
 			EtatCourant.aTonTour();
-			System.out.println("Joueur"+pseudo+"a ton tour");
+			System.out.println("Joueur"+pseudo+"premier tirage");
 		} catch (TransitionNonPermisException e) {
 			System.out.println("Demande non accepte");
 		}
 	}
 	public void enAttente() {
 		try {
-			EtatCourant.finTour();
+			EtatCourant.finDeTour();
 		} catch (TransitionNonPermisException e) {
 			System.out.println("Demande non accepte");
 		}

@@ -10,7 +10,7 @@ package fr.ensma.a3.ia.JeuMemoire.Joueurs.automateJoueurs;
 public interface IEtatJoueurs {
 
 	public void aTonTour() throws TransitionNonPermisException;
-	public void finTour() throws TransitionNonPermisException;
-	public void nouveauTour() throws TransitionNonPermisException;
+	public void secondTour() throws TransitionNonPermisException;
+	public void finDeTour() throws TransitionNonPermisException;
 	
 }

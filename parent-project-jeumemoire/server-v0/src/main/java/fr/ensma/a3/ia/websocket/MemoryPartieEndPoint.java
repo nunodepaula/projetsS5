@@ -19,7 +19,6 @@ import javax.websocket.server.ServerEndpoint;
 import ClientMessagePartie.ClientMessagePartie;
 import ClientMessagePartie.ClientMessagePartieDecode;
 import ClientMessagePartie.ClientMessagePartieEncode;
-import fr.ensma.a3.ia.JeuMemoire.BaseJeu;
 import fr.ensma.a3.ia.JeuMemoire.Partie;
 import fr.ensma.a3.ia.JeuMemoire.Plateau;
 import fr.ensma.a3.ia.rest.JoueurResource;
@@ -31,6 +30,7 @@ public class MemoryPartieEndPoint {
 	private static Map<String, Session> map = new HashMap<String, Session>();
 	private static List<PartieBean> mesPartiesAccueil = new ArrayList<PartieBean>();
 	private static Map<Integer, Partie> mesPartiesJeu = new HashMap<Integer, Partie>();
+	private static Map<String,Integer> createurIdentifiant=new HashMap<String,Integer>();
 
 	@OnOpen
 	public void onOpen(@PathParam("email") String email, Session sess, EndpointConfig endpointConfig) {
@@ -50,6 +50,7 @@ public class MemoryPartieEndPoint {
 			System.out.println("creation d'une partie par un joueur");
 			id = id + 1;
 			message.setId(id);
+			createurIdentifiant.put(email, id);
 			System.out.println(message.getNomCreateur());
 			//Envoie des données concernant la partie aux autres utilisateurs
 			for (String key : map.keySet()) {
@@ -72,15 +73,15 @@ public class MemoryPartieEndPoint {
 			PartieBean partie = new PartieBean(message.getNomCreateur(), message.getLongueurPlateau(),
 					message.getNbPaires(), message.getDifficulte(), message.getNbJoueurs(), id);
 			mesPartiesAccueil.add(partie);
-			Partie vpartie = new Partie(new BaseJeu(message.getLongueurPlateau(), message.getNbPaires()),
-					new Plateau(message.getNbPaires(), message.getNbPaires()), message.getNbJoueurs(),
-					message.getDifficulte());
+			Partie vpartie = new Partie(new Plateau(message.getLongueurPlateau(), message.getLongueurPlateau()), message.getNbJoueurs(),
+					message.getDifficulte(),message.getNbPaires());
 			mesPartiesJeu.put(id, vpartie);
 			//Ajout du joueur dans la partie
 			for (int i = 0; i < JoueurResource.joueurs.size(); i++) {
 				if (JoueurResource.joueurs.get(i).getEmail().compareTo(email) == 0) {
 					System.out.println("ajout du joueur "+email+"dans la partie"+message.getId());
 					vpartie.ajouterJoueur(JoueurResource.joueurs.get(i));
+					vpartie.initPartie();
 					mesPartiesJeu.put(id, vpartie);
 				}
 			}
@@ -93,7 +94,7 @@ public class MemoryPartieEndPoint {
 					mesPartiesJeu.get(message.getId()).ajouterJoueur(JoueurResource.joueurs.get(i));
 				}
 			}
-			//Test si la partie est complète et supprime la parte de l'affichage
+			//Test si la partie est complète on supprime la partie de l'affichage
 			if (mesPartiesJeu.get(id).getJoueurs().size() == message.getNbJoueurs()) {
 				System.out.println("suppression de la partie");
 				for (int j = 0; j < mesPartiesAccueil.size(); j++) {
@@ -132,5 +133,12 @@ public class MemoryPartieEndPoint {
 
 	public static List<PartieBean> getMesParties() {
 		return mesPartiesAccueil;
+	}
+	
+	public static Map<Integer, Partie> getMesPartiesJeu(){
+		return mesPartiesJeu;
+	}
+	public static Map<String,Integer> getMapIdentifiantCreateur(){
+		return createurIdentifiant;
 	}
 }

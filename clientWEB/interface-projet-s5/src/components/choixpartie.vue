@@ -48,20 +48,20 @@ Rejoindre!!
 
 <select name="plateau" id="taille" v-model="longueurPlateauChoisi">
     <option value="">Sélectionnez</option>
+    <option value=4>4</option>
+    <option value=7>7</option>
     <option value=10>10</option>
-    <option value=30>30</option>
-    <option value=70>70</option>
 </select>
 <br/>
 <br/>
 <br/>
-<label for="paire">Nombre de paires</label>
+<label for="paire">Mode</label>
 
 <select name="nombre" id="paire" v-model="nbPaireChoisi">
     <option value="">Sélectionnez</option>
+    <option value=1>1</option>
+    <option value=2>2</option>
     <option value=3>3</option>
-    <option value=12>12</option>
-    <option value=30>30</option>
 </select>
 <br/>
 <br/>
@@ -164,6 +164,8 @@ methods:{
                   this.choixReponse.identifiant=this.identifiant;
                   this.ws.send(JSON.stringify(this.choixReponse));
                   this.PartieChoisie();
+                  this.$store.commit("setEmailCreateur",this.choixReponse.nomCreateur);
+                  console.log(this.choixReponse.nomCreateur+"test");
                   this.$router.push({
                   name: "memoire"
               });
@@ -189,6 +191,7 @@ methods:{
     PartieChoisie(){
         this.ws.close();
         this.ws = null;
+        this.$store.commit("setTaille", this.choixReponse.longueurPlateau);
     },
     sendReponse(){
         console.log(this.difficulteChoisi);
@@ -200,6 +203,7 @@ methods:{
       this.choixReponse.nbJoueurs=this.nbJoueursChoisi;
       this.ws.send(JSON.stringify(this.choixReponse)); 
       this.PartieChoisie();
+       this.$store.commit("setEmailCreateur",this.choixReponse.nomCreateur);
       this.$router.push({
                   name: "memoire"
               });

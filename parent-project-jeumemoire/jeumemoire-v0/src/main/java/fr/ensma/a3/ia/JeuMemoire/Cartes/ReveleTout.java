@@ -4,7 +4,7 @@ import fr.ensma.a3.ia.JeuMemoire.Plateau;
 
 public class ReveleTout extends ACarteMagique {
 	public ReveleTout(Plateau monPlateau) {
-		super("ReveleTout",monPlateau);
+		super("MagiqueReveleTout",monPlateau);
 	}
 
 	@Override
@@ -16,18 +16,11 @@ public class ReveleTout extends ACarteMagique {
 		System.out.println("Carte Revele Tout trouve");
 		for (int i = 0; i < this.getPlateau().getCartes().size(); i++) {
 			for(int j=0;j<this.getPlateau().getCartes().get(i).size();j++) {
-			this.getPlateau().getCartes().get(i).get(j).afficher();
+				ACarte carte=(ACarte) this.getPlateau().getCartes().get(i).get(j);
+				if(carte.getEtatCourant()==carte.getCacher()) {
+				this.getPlateau().getCartes().get(i).get(j).afficher();
+				}
 			}
 		}
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException ex) {
-			Thread.currentThread().interrupt();
-		}
-		for (int i = 0; i < this.getPlateau().getCartes().size(); i++) {
-			for(int j=0;j<this.getPlateau().getCartes().get(i).size();j++) {
-			this.getPlateau().getCartes().get(i).get(j).afficher();
-			}
-	}
 	}
 }

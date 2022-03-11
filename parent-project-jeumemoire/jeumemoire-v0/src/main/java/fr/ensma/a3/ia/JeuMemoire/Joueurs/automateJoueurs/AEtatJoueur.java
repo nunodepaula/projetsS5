@@ -26,15 +26,15 @@ public class AEtatJoueur implements IEtatJoueurs {
 	}
 
 	@Override
-	public void finTour() throws TransitionNonPermisException{
+	public void secondTour() throws TransitionNonPermisException{
+		// TODO Auto-generated method stub
+		throw new TransitionNonPermisException();
+	}
+	@Override
+	public void finDeTour() throws TransitionNonPermisException{
 		// TODO Auto-generated method stub
 		throw new TransitionNonPermisException();
 	}
 
-	@Override
-	public void nouveauTour() throws TransitionNonPermisException{
-		// TODO Auto-generated method stub
-		throw new TransitionNonPermisException();
-	}
 
 }

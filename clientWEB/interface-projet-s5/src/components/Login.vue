@@ -101,6 +101,10 @@ methods:{
 </script>
 
 <style>
+body{
+  background-image:url("../assets/background.jpg");
+  background-size:cover;
+}
 .newjoueur{
   float:left;
   width:50%

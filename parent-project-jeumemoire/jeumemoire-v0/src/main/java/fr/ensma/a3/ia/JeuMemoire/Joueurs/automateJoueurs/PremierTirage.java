@@ -9,20 +9,19 @@ import fr.ensma.a3.ia.JeuMemoire.Joueurs.AJoueur;
  * @author nunod
  *
  */
-public class EnAttente extends AEtatJoueur {
+public class PremierTirage extends AEtatJoueur {
 
 	/**
 	 * 
 	 */
-	public EnAttente(AJoueur monJoueur) {
+	public PremierTirage(AJoueur monJoueur) {
 		// TODO Auto-generated constructor stub
 		super(monJoueur);
 	}
-	
-	@Override
-	public void aTonTour() {
-		// TODO Auto-generated method stub
-		monJoueur.setEtatCourant(monJoueur.getEtatPremierTirage());
-	}
 
+	@Override
+	public void secondTour() {
+		// TODO Auto-generated method stub
+		monJoueur.setEtatCourant(monJoueur.getEtatSecondTirage());
+	}	
 }
