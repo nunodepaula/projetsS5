@@ -20,6 +20,8 @@
   <modules>
         
     <module>jeumemoire-v0</module>
+    
+    <module>jeumemoireui-v0</module>
         
     <module>server-v0</module>
           
