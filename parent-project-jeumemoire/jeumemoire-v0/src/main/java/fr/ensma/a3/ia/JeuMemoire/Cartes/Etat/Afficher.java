@@ -1,7 +1,9 @@
 package fr.ensma.a3.ia.JeuMemoire.Cartes.Etat;
 
 import fr.ensma.a3.ia.JeuMemoire.Cartes.ACarte;
-
+/**
+ *Définition de l'état afficher
+ */
 public class Afficher extends AEtatCarte{
 	public Afficher(ACarte c) {
 		uneCarte=c;

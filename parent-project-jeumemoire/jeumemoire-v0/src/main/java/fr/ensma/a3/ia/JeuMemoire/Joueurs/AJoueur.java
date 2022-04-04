@@ -5,7 +5,7 @@ package fr.ensma.a3.ia.JeuMemoire.Joueurs;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Objects;
 
 import fr.ensma.a3.ia.JeuMemoire.Partie;
 import fr.ensma.a3.ia.JeuMemoire.Plateau;
@@ -20,7 +20,7 @@ import fr.ensma.a3.ia.JeuMemoire.Joueurs.automateJoueurs.TransitionNonPermisExce
 
 /**
  * @author alvaresn
- *
+ *Définition d'un joueur
  */
 
 public abstract class AJoueur{
@@ -38,6 +38,7 @@ public abstract class AJoueur{
 	private Integer score;
 
 	/**
+	 * Obtient l'instance d'un joueur
 	 * @param nom
 	 * @param prenom
 	 * @param email
@@ -45,10 +46,10 @@ public abstract class AJoueur{
 	 */
 	public AJoueur(String nom, String prenom, String email, String pseudo,Partie maPartie) {
 		super();
-		this.nom = nom;
-		this.prenom = prenom;
-		this.email = email;
-		this.pseudo = pseudo;
+		this.nom = Objects.requireNonNull(nom);
+		this.prenom = Objects.requireNonNull(prenom);
+		this.email = Objects.requireNonNull(email);
+		this.pseudo = Objects.requireNonNull(pseudo);
 		carteGagne=new ArrayList<ICarte>();
 		this.maPartie=maPartie;
 		EtatCourant=EtatEnAttente;
@@ -68,36 +69,49 @@ public abstract class AJoueur{
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	
+	/**
+	 * 
+	 * @return le score
+	 */
 	public Integer getScore() {
 		return score;
 	}
-	
+	/**
+	 * 
+	 * @param nouveauscore
+	 */
 	public void setScore(Integer nouveauscore) {
 		this.score=nouveauscore;
 	}
 
 	/**
-	 * @return the prenom
+	 * @return le prenom
 	 */
 	public String getPrenom() {
 		return prenom;
 	}
 
 	/**
-	 * @param prenom the prenom to set
+	 * @param prenom le prénom à changer
 	 */
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
 
 	/**
-	 * @return the email
+	 * @return l'email
 	 */
 	public String getEmail() {
 		return email;
 	}
-
+	
+	/**
+	 * 
+	 * @return la partie
+	 */
+	public Partie getPartie() {
+		return maPartie;
+	}
 	/**
 	 * @param email the email to set
 	 */
@@ -114,7 +128,12 @@ public abstract class AJoueur{
 	public String getPseudo() {
 		return pseudo;
 	}
-	
+	/**
+	 * Représente le tirage d'une carte par sa ligne et sa colonne
+	 * @param colonne1
+	 * @param ligne1
+	 * @return
+	 */
 	public ICarte tirerCarte(Integer colonne1,Integer ligne1) {
 		this.maPartie.getPlateau().getCartes().get(ligne1).get(colonne1).afficher();
 		return maPartie.getPlateau().getCartes().get(ligne1).get(colonne1);
@@ -125,15 +144,23 @@ public abstract class AJoueur{
 	public void setPseudo(String pseudo) {
 		this.pseudo = pseudo;
 	}
-	
+	/**
+	 * Remise à zéro des cartes gagnées
+	 */
 	public void resetCarteGagne() {
-		carteGagne=new ArrayList<>();
+		carteGagne=new ArrayList<ICarte>();
 	}
-	
+	/**
+	 * 
+	 * @return les cartes gagnées
+	 */
 	public List<ICarte> getCarteGagne(){
 		return carteGagne;
 	}
-	
+	/**
+	 * ajout d'une nouvelle carte gagnée
+	 * @param macarteGagne
+	 */
 	public void addCarteGagne(ICarte macarteGagne) {
 		carteGagne.add(macarteGagne);
 	}

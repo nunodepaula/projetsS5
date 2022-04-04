@@ -2,7 +2,7 @@ package ClientMessagePartie;
 
 
 public class ClientMessagePartie {
-	private String difficulte;
+	private Integer mode;
 	private Integer longueurPlateau;
 	private Integer nbPaires;
 	private String nomCreateur;
@@ -23,8 +23,8 @@ public class ClientMessagePartie {
 		this.identifiant=ident;
 	}
 
-	public void setDifficulte(String difficulte) {
-		this.difficulte = difficulte;
+	public void setMode(Integer mode) {
+		this.mode = mode;
 	}
 
 	public void setLongueurPlateau(Integer longueurPlateau) {
@@ -35,8 +35,8 @@ public class ClientMessagePartie {
 		this.nbPaires = nbPaires;
 	}
 
-	public String getDifficulte() {
-		return difficulte;
+	public Integer getMode() {
+		return mode;
 	}
 
 	public Integer getLongueurPlateau() {

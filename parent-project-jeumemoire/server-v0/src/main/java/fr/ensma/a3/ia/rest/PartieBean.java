@@ -2,18 +2,18 @@ package fr.ensma.a3.ia.rest;
 
 public class PartieBean {
 	private String nomCreateur;
-	private String difficulte;
+	private Integer mode;
 	private Integer nbPaires;
 	private Integer longueurPlateau;
 	private Integer nbJoueurs;
 	private Integer identifiant;
 
-	public PartieBean(String createur, Integer taillePlateau, Integer nbPaires, String difficulte, Integer nbJoueurs,
+	public PartieBean(String createur, Integer taillePlateau, Integer nbPaires, Integer mode, Integer nbJoueurs,
 			Integer id) {
 		this.nomCreateur = createur;
 		this.longueurPlateau = taillePlateau;
 		this.nbPaires = nbPaires;
-		this.difficulte = difficulte;
+		this.mode = mode;
 		this.nbJoueurs = nbJoueurs;
 		this.identifiant = id;
 	}
@@ -26,8 +26,8 @@ public class PartieBean {
 		return nomCreateur;
 	}
 
-	public String getDifficulte() {
-		return difficulte;
+	public Integer getMode() {
+		return mode;
 	}
 
 	public Integer getIdentifiant() {
@@ -62,7 +62,7 @@ public class PartieBean {
 		this.nbPaires = nbPaires;
 	}
 
-	public void setDifficulte(String difficulte) {
-		this.difficulte = difficulte;
+	public void setMode(String difficulte) {
+		this.mode = mode;
 	}
 }

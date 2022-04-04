@@ -7,12 +7,13 @@ import fr.ensma.a3.ia.JeuMemoire.Joueurs.AJoueur;
 
 /**
  * @author nunod
- *
+ * Définition du PremierTirage
  */
 public class PremierTirage extends AEtatJoueur {
 
 	/**
-	 * 
+	 * Obtient l'instance de PremierTirage
+	 * @param monJoueur
 	 */
 	public PremierTirage(AJoueur monJoueur) {
 		// TODO Auto-generated constructor stub
