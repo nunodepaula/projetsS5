@@ -2,7 +2,6 @@
 <h1>Choix de Partie</h1>
 <h3 onload="choixPartieConnect()">Sélectionnez une partie en attente de joueurs ou remplissez une nouvelle partie puis cliquez sur commencer</h3>
 <div class="gauche">
-<div class="contenu1">
 <h4>Parties en attentes</h4>
 <label for="name">Identifiant de la partie à rejoindre&nbsp;</label>
 <input type="text" v-model="identifiant">
@@ -13,42 +12,27 @@ Rejoindre!!
             <tr>
                 <th>Crée par</th>
                 <th>Identifiant</th>
-                <th>Difficulté</th>
+                <th>Mode</th>
                 <th>Taille Plateau</th>
-                <th>Nombre de paires</th>
                 <th>Nombre de Joueurs</th>
             </tr>
             <tr v-for="row in this.lesparties" :key="row">
                 <td>{{row.nomCreateur}}</td>
                 <td>{{row.identifiant}}</td>
-                <td>{{row.difficulte}}</td>
+                <td>{{row.mode}}</td>
                 <td>{{row.longueurPlateau}}</td>
-                <td>{{row.nbPaires}}</td>
                 <td>{{row.nbJoueurs}}</td>
             </tr>
     </table>
 </div>
-</div>
 <div class="droite">
-<div class="contenu2">
 <h4>Nouvelle Partie</h4>
 <br/>
-<label for="difficulty">&nbsp;&nbsp;&nbsp;&nbsp;Difficulté&nbsp;</label>
 
-<select name="difficulte" id="difficulty" v-model="difficulteChoisi">
-    <option value="">Sélectionnez</option>
-    <option value="debutant">Débutant</option>
-    <option value="normal">Normal</option>
-    <option value="impossible">Impossible</option>
-</select>
-<br/>
-<br/>
-<br/>
-<label for="taille">Taille Plateau&nbsp;</label>
+<label for="taille">Taille Plateau</label>
 
 <select name="plateau" id="taille" v-model="longueurPlateauChoisi">
-    <option value="">Sélectionnez</option>
-    <option value=4>4</option>
+    <option selected="selected" value=4>4</option>
     <option value=7>7</option>
     <option value=10>10</option>
 </select>
@@ -57,18 +41,15 @@ Rejoindre!!
 <br/>
 <label for="paire">Mode</label>
 
-<select name="nombre" id="paire" v-model="nbPaireChoisi">
-    <option value="">Sélectionnez</option>
-    <option value=1>1</option>
+<select name="nombre" id="paire" v-model="modeChoisi">
+    <option selected=true value=1>1</option>
     <option value=2>2</option>
-    <option value=3>3</option>
 </select>
 <br/>
 <br/>
 <br/>
 <label for="joueurs">Nombre de Joueurs</label>
 <select name="nombreJoueur" id="joueurs" v-model="nbJoueursChoisi">
-    <option value="">Sélectionnez</option>
     <option value=2>2</option>
     <option value=3>3</option>
     <option value=4>4</option>
@@ -92,7 +73,6 @@ Rejoindre!!
   <br/>
   <button @click="sendReponse">Commencez!!</button>
 </div>
-</div>
 </template>
 
 
@@ -105,8 +85,7 @@ export default{
     ws : null,
     identifiant:0,
     index:0,
-    difficulteChoisi:"",
-    nbPaireChoisi:"",
+    modeChoisi:0,
     longueurPlateauChoisi:"",
     nbJoueursChoisi:0,
     adversaire:"",
@@ -114,8 +93,7 @@ export default{
     lesparties:[],
      choixReponse: {
         nomCreateur:"",
-        difficulte: "",
-        nbPaires: 0,
+        mode:0,
         longueurPlateau:0,
         nbJoueurs:0,
         identifiant:0,
@@ -123,8 +101,7 @@ export default{
       partieMessage: {
         nomCreateur:"",
         identifiant:0,
-        difficulte:"",
-        nbPaires:0,
+        mode:0,
         longueurPlateau:0,
         nbJoueurs:0
       },
@@ -194,12 +171,9 @@ methods:{
         this.$store.commit("setTaille", this.choixReponse.longueurPlateau);
     },
     sendReponse(){
-        console.log(this.difficulteChoisi);
-        console.log(this.nbPaireChoisi);
       this.choixReponse.nomCreateur = this.$store.getters.getLeUser;
-      this.choixReponse.difficulte = this.difficulteChoisi;
       this.choixReponse.longueurPlateau=this.longueurPlateauChoisi;
-      this.choixReponse.nbPaires=this.nbPaireChoisi; 
+      this.choixReponse.mode=this.modeChoisi; 
       this.choixReponse.nbJoueurs=this.nbJoueursChoisi;
       this.ws.send(JSON.stringify(this.choixReponse)); 
       this.PartieChoisie();
@@ -234,27 +208,19 @@ h3{
 
 .gauche{
     float:left;
-    width:60%
+    width:60%;
+    vertical-align:middle,
 }
 
 .droite{
     float:right;
-    width:40%,
+    width:40%;
+    vertical-align:middle;
+    align-items: center,
 }
-.contenu1{
-    position:relative;
-    top:10%;
-    left:10%;
-    bottom:5%;
-}
-.contenu2{
-  position: relative;
-  top: 10%;
-  right:100%;
-  bottom:5%;
-  left:0%
 
-}
+
+
 .styled-table {
     border-collapse: collapse;
     margin: 25px 0;
@@ -273,8 +239,10 @@ h3{
     padding: 12px 15px;
 }
 
-.select{
-    align-items:center;
+
+table{
+    position:absolute;
+    left:230px;
 }
 th{
     text-align:center;

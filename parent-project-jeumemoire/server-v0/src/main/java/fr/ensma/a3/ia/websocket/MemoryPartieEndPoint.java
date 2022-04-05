@@ -20,6 +20,8 @@ import ClientMessagePartie.ClientMessagePartie;
 import ClientMessagePartie.ClientMessagePartieDecode;
 import ClientMessagePartie.ClientMessagePartieEncode;
 import fr.ensma.a3.ia.JeuMemoire.Partie;
+import fr.ensma.a3.ia.JeuMemoire.PartiePleineException;
+import fr.ensma.a3.ia.JeuMemoire.PartieVideException;
 import fr.ensma.a3.ia.JeuMemoire.Plateau;
 import fr.ensma.a3.ia.rest.JoueurResource;
 import fr.ensma.a3.ia.rest.PartieBean;
@@ -71,17 +73,26 @@ public class MemoryPartieEndPoint {
 			}
 			//Creation d'une partie à partir des données reçues
 			PartieBean partie = new PartieBean(message.getNomCreateur(), message.getLongueurPlateau(),
-					message.getNbPaires(), message.getDifficulte(), message.getNbJoueurs(), id);
+					message.getNbPaires(), message.getMode(), message.getNbJoueurs(), id);
 			mesPartiesAccueil.add(partie);
-			Partie vpartie = new Partie(new Plateau(message.getLongueurPlateau(), message.getLongueurPlateau()), message.getNbJoueurs(),
-					message.getDifficulte(),message.getNbPaires());
+			Partie vpartie = new Partie(new Plateau(message.getLongueurPlateau(), message.getLongueurPlateau()), message.getNbJoueurs(),message.getMode());
 			mesPartiesJeu.put(id, vpartie);
 			//Ajout du joueur dans la partie
 			for (int i = 0; i < JoueurResource.joueurs.size(); i++) {
 				if (JoueurResource.joueurs.get(i).getEmail().compareTo(email) == 0) {
 					System.out.println("ajout du joueur "+email+"dans la partie"+message.getId());
-					vpartie.ajouterJoueur(JoueurResource.joueurs.get(i));
-					vpartie.initPartie();
+					try {
+						vpartie.ajouterJoueur(JoueurResource.joueurs.get(i));
+					} catch (PartiePleineException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					try {
+						vpartie.initPartie();
+					} catch (PartieVideException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					mesPartiesJeu.put(id, vpartie);
 				}
 			}
@@ -91,7 +102,12 @@ public class MemoryPartieEndPoint {
 			System.out.println("ajout de " + email + "dans la partie " + message.getId());
 			for (int i = 0; i < JoueurResource.joueurs.size(); i++) {
 				if (JoueurResource.joueurs.get(i).getEmail().compareTo(email) == 0) {
-					mesPartiesJeu.get(message.getId()).ajouterJoueur(JoueurResource.joueurs.get(i));
+					try {
+						mesPartiesJeu.get(message.getId()).ajouterJoueur(JoueurResource.joueurs.get(i));
+					} catch (PartiePleineException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 			//Test si la partie est complète on supprime la partie de l'affichage

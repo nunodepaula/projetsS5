@@ -7,11 +7,12 @@ import fr.ensma.a3.ia.JeuMemoire.Partie;
 
 /**
  * @author nunod
- *
+ *Définition d'un joueur machine
  */
 public class JoueurMachine extends AJoueur {
 
 	/**
+	 * Obtient l'instance d'un joueur Machine
 	 * @param nom
 	 * @param prenom
 	 * @param email

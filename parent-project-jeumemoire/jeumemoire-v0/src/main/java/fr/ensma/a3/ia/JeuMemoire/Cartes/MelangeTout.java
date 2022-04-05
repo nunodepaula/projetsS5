@@ -4,26 +4,44 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import fr.ensma.a3.ia.JeuMemoire.Partie;
 import fr.ensma.a3.ia.JeuMemoire.Plateau;
-
+/**
+ * Définition de la carte Mélange Tout
+ * @author Jordan
+ *
+ */
 public class MelangeTout extends ACarteMagique {
-
-	public MelangeTout(Plateau monPlateau) {
-		super("MagiqueMelangeTout", monPlateau);
+	/**
+	 * Obtient une instance de Mélange Tout
+	 * @param monPlateau
+	 * @param maPartie
+	 */
+	public MelangeTout(Plateau monPlateau,Partie maPartie) {
+		super("MagiqueMelangeTout", monPlateau,maPartie);
 	}
 
 	@Override
 	public void effetSpecial() {
 		melange();
 	}
-
+	/**
+	 * Obtient un entier aléatoirement entre deux bornes
+	 * @param borneInf
+	 * @param borneSup
+	 * @return
+	 */
 	int genererInt(int borneInf, int borneSup) {
 		Random random = new Random();
 		int nb;
 		nb = borneInf + random.nextInt(borneSup - borneInf);
 		return nb;
 	}
-	private List<ICarte> listeaMelanger(){
+	/**
+	 * Récupère les cartes à mélanger (qui ne sont pas dans l'état trouver)
+	 * @return Liste des cartes à mélanger
+	 */
+	public List<ICarte> listeaMelanger(){
 		List<ICarte> maListeAMelanger=new ArrayList<ICarte>();
 		for(int i=0;i<this.getPlateau().getCartes().size();i++) {
 			for(int j=0;j<this.getPlateau().getCartes().get(i).size();j++) {
@@ -35,8 +53,11 @@ public class MelangeTout extends ACarteMagique {
 		}
 		return maListeAMelanger;
 	}
-	
-	private void remplissage(List<ICarte> mesCartes) {
+	/**
+	 * Fonction chargé de reremplir les carte du plateau avec la liste précédente une fois qu'elle a été mélangé
+	 * @param mesCartes 
+	 */
+	public void remplissage(List<ICarte> mesCartes) {
 		int count=0;
 		for(int i=0;i<this.getPlateau().getCartes().size();i++) {
 			for(int j=0;j<this.getPlateau().getCartes().get(i).size();j++) {
@@ -49,6 +70,9 @@ public class MelangeTout extends ACarteMagique {
 	
 	}
 	}
+	/**
+	 * Fonction chargé de mélanger la liste obtenue par listeaMelanger et de les réinsérer dans le plateau 
+	 */
 	public void melange() {
 		System.out.println("Carte Melange Tout trouve");
 		List<ICarte> maListe=this.listeaMelanger();

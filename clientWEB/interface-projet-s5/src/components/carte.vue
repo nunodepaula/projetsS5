@@ -21,12 +21,19 @@ export default {
 <style>
 
 .monimage{
-    height:200px;
-    width:150px;
+    height:100%;
+    width:100%;
+    display: block;
 }
 .test{
-    margin-left:20px;
-       margin-bottom:20px;
-    background-color:white;
+
+    height:120px;
+    width:75px;
+    padding: 0;
+    margin: 0;
+    vertical-align: top;
+    margin-left:10px;
+    margin-bottom:10px;
+    background-color:orange;
 }
 </style>

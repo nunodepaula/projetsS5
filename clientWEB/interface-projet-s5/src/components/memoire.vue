@@ -33,7 +33,7 @@ export default {
         joueurScore:new Map(),
         taille:this.$store.getters.getTaille,
         monemail:this.$store.getters.getLeUser,
-        url:"http://localhost:8080/services/identifiant",
+        url:"http://localhost:8080/services/identifiant/",
         mesCartes:[],
         ligne:[],
         ligneTrouve:[],
@@ -69,11 +69,12 @@ export default {
     },
 
     getIdentifiant(){
-    console.log(this.$store.getters.getEmailCreateur)
+    console.log(this.$store.getters.getEmailCreateur);
+    this.url=this.url+this.$store.getters.getEmailCreateur;
+    console.log(this.url);
     console.log("Appel service Rest ...")
-    axios.get(this.url,{headers:{
-      email:this.$store.getters.getEmailCreateur
-    }}).then((response) => {
+    axios.get(this.url
+    ).then((response) => {
     console.log(response.data);
     this.identifiant = response.data;
     this.MemoryConnect();
@@ -98,13 +99,7 @@ export default {
         this.memoryMessage = JSON.parse(event.data);
         console.log(this.memoryMessage.emailCreateur);
         if((this.memoryMessage.valeur!="trouver")&&(this.memoryMessage.valeur!="cacher")&&(this.memoryMessage.valeur!=null)){
-          if(this.carteTrouve[this.memoryMessage.colonne][this.memoryMessage.ligne]){
              this.mesCartes[this.memoryMessage.colonne][this.memoryMessage.ligne]=this.memoryMessage.valeur+".png";
-          }
-          else{
-            this.carteTrouve[this.memoryMessage.colonne][this.memoryMessage.ligne]=true;
-            this.mesCartes[this.memoryMessage.colonne][this.memoryMessage.ligne]="cacher.png"; 
-          }
         }
         if(this.memoryMessage.valeur=="trouver"){
             this.verrou=1;
@@ -113,8 +108,12 @@ export default {
         if(this.memoryMessage.valeur=="cacher"){
           this.verrou=1;
           setTimeout(() =>{this.reinitialisationCarte("cacher.png");},2000);
+          console.log("=======>test");
+           }
+        if(this.memoryMessage.valeur=="danstaface"){
+          this.carteTrouve[this.memoryMessage.colonne][this.memoryMessage.ligne]=true;
+          this.mesCartes[this.memoryMessage.colonne][this.memoryMessage.ligne]="cacher.png";
         }
-       
         if(this.memoryMessage.emailCreateur!=null){
           this.joueurScore.set(this.memoryMessage.emailCreateur,this.memoryMessage.score);
         }}
@@ -159,6 +158,7 @@ components:{
 </script>
 
 <style>
+
 
 .invisible{
   visibility:hidden;

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
@@ -202,19 +203,19 @@ public class MemoryJeuEndPoint {
 				}
 				if(valeurc.compareTo("MagiqueDansTaFace")==0) {
 					System.out.println("notification dans ta face");
-					for(int i=0;i<partie.reaffichage(joueur).size()-1;i=i++) {
+					List<Integer>carteaReafficher=partie.reaffichage(joueur);
+					for(int i=0;i<carteaReafficher.size()-1;i=i+2) {
 						ClientMessageJeuMemory messageDansTaFace=new ClientMessageJeuMemory();
-						Integer ligne=partie.reaffichage(joueur).get(i);
-						Integer colonne=partie.reaffichage(joueur).get(i+1);
-						System.out.println(partie.reaffichage(joueur).get(i));
-						System.out.println(partie.reaffichage(joueur).get(i+1));
-						
-						messageDansTaFace.setValeur(partie.getCarteByLigneColonne(ligne, colonne));
+						Integer ligne=carteaReafficher.get(i);
+						Integer colonne=carteaReafficher.get(i+1);
+						System.out.println(carteaReafficher.get(i));
+						System.out.println(carteaReafficher.get(i+1));				
 						messageDansTaFace.setColonne(colonne);
 						messageDansTaFace.setLigne(ligne);
+						messageDansTaFace.setValeur("danstaface");
 						messageDansTaFace.setEmailCreateur(sess.getUserProperties().get("email").toString());
-						System.out.println(partie.getCarteByLigneColonne(ligne, colonne));
 						messageDansTaFace.setScore(joueur.getScore());
+						System.out.println("le score du joueur est "+joueur.getScore());
 						for (Session client : clients) {
 							try {
 								client.getBasicRemote().sendObject(messageDansTaFace);
@@ -225,9 +226,7 @@ public class MemoryJeuEndPoint {
 							} catch (EncodeException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
-							}
-
-						
+							}						
 					}
 				}
 			}
