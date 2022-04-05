@@ -10,4 +10,5 @@ package fr.ensma.a3.ia;
 public interface ISceneManager {
 
 	public void choixPartie();
+	public void partieFinie();
 }

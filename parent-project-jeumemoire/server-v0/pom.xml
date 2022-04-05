@@ -56,13 +56,25 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.kumuluz.ee</groupId>
-			<artifactId>kumuluzee-websocket-jetty</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.kumuluz.ee</groupId>
-			<artifactId>kumuluzee-microProfile-3.3</artifactId>
-		</dependency>
+        <groupId>com.kumuluz.ee</groupId>
+         <artifactId>kumuluzee-core</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>com.kumuluz.ee</groupId>
+         <artifactId>kumuluzee-servlet-jetty</artifactId>
+    </dependency>
+    <dependency>
+         <groupId>com.kumuluz.ee</groupId>
+         <artifactId>kumuluzee-websocket-jetty</artifactId>
+    </dependency>
+   	<dependency>
+        <groupId>com.kumuluz.ee</groupId>
+        <artifactId>kumuluzee-jax-rs-jersey</artifactId>
+	</dependency>
+      <dependency>
+	    <groupId>javax.ws.rs</groupId>
+		<artifactId>javax.ws.rs-api</artifactId>
+	  </dependency>
 	</dependencies>
 
 	<build>
