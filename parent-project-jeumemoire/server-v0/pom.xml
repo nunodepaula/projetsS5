@@ -49,6 +49,13 @@
 			<artifactId>jeumemoire-v0</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
+
+		<dependency>
+			<groupId>fr.ensma.a3.ia</groupId>
+			<artifactId>persistancejeumemory-v0</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/javax.websocket/javax.websocket-api -->
 		<dependency>
 			<groupId>javax.websocket</groupId>
@@ -56,25 +63,25 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-        <groupId>com.kumuluz.ee</groupId>
-         <artifactId>kumuluzee-core</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>com.kumuluz.ee</groupId>
-         <artifactId>kumuluzee-servlet-jetty</artifactId>
-    </dependency>
-    <dependency>
-         <groupId>com.kumuluz.ee</groupId>
-         <artifactId>kumuluzee-websocket-jetty</artifactId>
-    </dependency>
-   	<dependency>
-        <groupId>com.kumuluz.ee</groupId>
-        <artifactId>kumuluzee-jax-rs-jersey</artifactId>
-	</dependency>
-      <dependency>
-	    <groupId>javax.ws.rs</groupId>
-		<artifactId>javax.ws.rs-api</artifactId>
-	  </dependency>
+			<groupId>com.kumuluz.ee</groupId>
+			<artifactId>kumuluzee-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.kumuluz.ee</groupId>
+			<artifactId>kumuluzee-servlet-jetty</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.kumuluz.ee</groupId>
+			<artifactId>kumuluzee-websocket-jetty</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.kumuluz.ee</groupId>
+			<artifactId>kumuluzee-jax-rs-jersey</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

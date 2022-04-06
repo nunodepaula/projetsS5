@@ -9,12 +9,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import fr.ensma.a3.ia.JeuMemoire.Plateau;
-import fr.ensma.a3.ia.JeuMemoire.Joueurs.AJoueur;
 import fr.ensma.a3.ia.JeuMemoire.Joueurs.JoueurPhysique;
 
 @Path("creation")
@@ -28,7 +25,7 @@ public class JoueurResource {
 		JoueurPhysique monjoueur = new JoueurPhysique(unjoueur.getNom(), unjoueur.getPrenom(), unjoueur.getEmail(),
 				unjoueur.getPseudo(), null);
 		joueurs.add(monjoueur);
-		return Response.ok(monjoueur.getNom()).build();
+		return Response.ok(monjoueur.getNom()).header("Access-Control-Allow-Origin", "*").build();
 	}
 	@GET
 	@Path("/connexion")

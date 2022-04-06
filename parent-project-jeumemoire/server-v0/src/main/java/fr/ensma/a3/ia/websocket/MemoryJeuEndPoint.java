@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
 
 import javax.websocket.EncodeException;
@@ -19,8 +17,6 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
-
-import org.eclipse.jetty.util.ssl.SslContextFactory.Client;
 
 import ClientMessageJeuMemory.ClientMessageJeuDecode;
 import ClientMessageJeuMemory.ClientMessageJeuEncode;
