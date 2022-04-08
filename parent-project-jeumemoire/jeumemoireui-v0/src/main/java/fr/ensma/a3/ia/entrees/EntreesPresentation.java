@@ -49,9 +49,13 @@ public class EntreesPresentation {
 		observeurs.add(obs);
 	}
 	
+	public HashMap<String, String> getData(){
+		return entreesVue.action();
+	}
+	
 	public void action() {
 		for (IEntreesObserver obs : observeurs) {
-			obs.actionEvent();
+			obs.actionEvent(this);
 		}
 	}
 

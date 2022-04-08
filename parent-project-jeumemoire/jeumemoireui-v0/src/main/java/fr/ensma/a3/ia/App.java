@@ -40,7 +40,7 @@ public class App extends Application implements ISceneManager
 		this.stage = stage;
 		
 		fenetreInscription();
-		partieFinie();
+		//partieFinie();
 	}
 	
 	public static void main( String[] args )

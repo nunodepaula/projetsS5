@@ -4,7 +4,15 @@
 package fr.ensma.a3.ia.Bienvenue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import com.google.gson.Gson;
 
 import fr.ensma.a3.ia.ISceneManager;
 import fr.ensma.a3.ia.entrees.EntreesPresentation;
@@ -25,6 +33,12 @@ public class BienvenuePresentation implements IEntreesObserver {
 	
 	private EntreesPresentation entreesInscription;
 	private EntreesPresentation entreesConnexion;
+	
+	// Server Configurations
+	private String serverIp = "localhost";
+	private Integer serverPort = 8080;
+	private String inscriptionLink = "/services/creation/inscription";
+	private String connectionLink  = "/services/creation/connexion";
 	
 	/**
 	 * 
@@ -72,13 +86,50 @@ public class BienvenuePresentation implements IEntreesObserver {
 		bienvenueVue.ajouterConnexion(vueConnexion);
 	}
 	
+	private String getLink(String service) {
+		return "http://"+serverIp+":"+serverPort.toString()+service;
+	}
+	
+	public String getServerIp() {
+		return serverIp;
+	}
+
+	public void setServerIp(String serverIp) {
+		this.serverIp = serverIp;
+	}
+
+	public Integer getServerPort() {
+		return serverPort;
+	}
+
+	public void setServerPort(Integer serverPort) {
+		this.serverPort = serverPort;
+	}
+
 	public void addObserver(ISceneManager obs) {
 		observeurs.add(obs);
 	}
 
 	@Override
-	public void actionEvent() {
-		// TODO Auto-generated method stub
+	public void actionEvent(EntreesPresentation presentation) {
+		// Get data inserted by the user
+		HashMap<String, String> player = presentation.getData();
+		
+		//Client restClient = ClientBuilder.newClient();
+		// Interpret Data accordingly to inscription or connection
+		if (presentation.equals(entreesInscription)){
+			System.out.println("New Player Inscription");
+			
+			Gson gson = new Gson();
+			
+			//Response r = restClient.target(getLink(inscriptionLink)).request(MediaType.APPLICATION_JSON).get();
+			
+			System.out.println(gson.toJson(player));
+			//System.out.println(r.toString());
+		}else if (presentation.equals(entreesConnexion)){
+			System.out.println("Connexion of existing player");
+		}
+		// Communication to the main screen for updating the current window
 		for (ISceneManager obs : observeurs) {
 			obs.choixPartie();
 		}

@@ -8,6 +8,7 @@ public class ClientMessagePartie {
 	private String nomCreateur;
 	private Integer nbJoueurs;
 	private Integer identifiant;
+	
 	public ClientMessagePartie() {
 	}
 

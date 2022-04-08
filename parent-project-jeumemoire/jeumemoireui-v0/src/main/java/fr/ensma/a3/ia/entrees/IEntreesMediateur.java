@@ -11,6 +11,6 @@ import java.util.HashMap;
  */
 public interface IEntreesMediateur {
 
-	public void action();
+	public HashMap<String, String> action();
 	public void ajouterChamps(HashMap<String,Integer> composNoms);
 }

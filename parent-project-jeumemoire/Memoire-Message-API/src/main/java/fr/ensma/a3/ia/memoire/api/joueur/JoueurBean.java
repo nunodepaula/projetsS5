@@ -1,14 +1,12 @@
-package fr.ensma.a3.ia.rest;
-
+package fr.ensma.a3.ia.memoire.api.joueur;
 
 public class JoueurBean {
+
 	private String nom;
 	private String prenom;
 	private String email;
 	private String pseudo;
-	public JoueurBean() {
-	}
-
+	
 	public void setNom(String unnom) {
 		nom = unnom;
 	}
@@ -41,4 +39,3 @@ public class JoueurBean {
 		return pseudo;
 	}
 }
-

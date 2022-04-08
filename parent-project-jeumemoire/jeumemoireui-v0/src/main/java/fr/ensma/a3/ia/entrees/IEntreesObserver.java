@@ -9,5 +9,5 @@ package fr.ensma.a3.ia.entrees;
  */
 public interface IEntreesObserver {
 
-	public void actionEvent();
+	public void actionEvent(EntreesPresentation presentation);
 }

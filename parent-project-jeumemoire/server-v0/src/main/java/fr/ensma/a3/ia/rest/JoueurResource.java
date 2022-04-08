@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import fr.ensma.a3.ia.JeuMemoire.Joueurs.JoueurPhysique;
+import fr.ensma.a3.ia.memoire.api.joueur.JoueurBean;
 
 @Path("creation")
 public class JoueurResource {

@@ -33,11 +33,12 @@ public class EntreesVue extends GridPane implements IEntreesMediateur, EventHand
 	 * 
 	 */
 	public EntreesVue(EntreesPresentation presentation) {
-		// TODO Auto-generated constructor stub
+		// Constructor for EntreesVue
 		super();
 		
 		this.presentation = presentation;
 		
+		// Spacing between components
 		this.setHgap(5);
 		this.setVgap(5);
 		
@@ -55,9 +56,15 @@ public class EntreesVue extends GridPane implements IEntreesMediateur, EventHand
 	}
 
 	@Override
-	public void action() {
-		// TODO Auto-generated method stub
+	public HashMap<String, String> action() {
+		// Return a HashMap with the info in the fields
+		HashMap<String, String> fields = new HashMap<String, String>();
+		// Create the HashMap mapping the inserted fields with the labels
+		for (int i = 0; i < labels.size(); i++) {
+			fields.put(labels.get(i).getText(), champs.get(i).getText());
+		}
 		
+		return fields;
 	}
 
 	@Override
