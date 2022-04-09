@@ -13,4 +13,5 @@ public interface IEntreesMediateur {
 
 	public HashMap<String, String> action();
 	public void ajouterChamps(HashMap<String,Integer> composNoms);
+	public void messageErreur(String message);
 }

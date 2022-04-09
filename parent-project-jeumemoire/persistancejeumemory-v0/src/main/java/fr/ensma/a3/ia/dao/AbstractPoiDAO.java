@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -17,7 +19,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public abstract class AbstractPoiDAO<T> implements IEntityDAO<T> {
 
 	//private static final String FILE__NAME = System.getProperty("user.home") + "/carnetadr_bdd/BDD.xlsx";
-	private static final String FILE__NAME = System.getProperty("user.dir") + "/jeumemory_bdd/BDD.xlsx";
+	private static Path projectPath = Paths.get(System.getProperty("user.dir")).getParent();
+	private static final String FILE__NAME = projectPath.toString() + "/persistancejeumemory-v0/jeumemory_bdd/BDD.xlsx";
 	
 	protected XSSFWorkbook openBase() {
 		try {

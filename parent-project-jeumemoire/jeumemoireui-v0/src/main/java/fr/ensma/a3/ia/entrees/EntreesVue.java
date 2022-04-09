@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 /**
@@ -28,6 +29,7 @@ public class EntreesVue extends GridPane implements IEntreesMediateur, EventHand
 	private List<Label> labels;
 	private List<TextField> champs;
 	private Button actionBtn;
+	private Label msgErreur;
 	
 	/**
 	 * 
@@ -89,6 +91,14 @@ public class EntreesVue extends GridPane implements IEntreesMediateur, EventHand
 		actionBtn = new Button(title.getText());
 		GridPane.setHalignment(actionBtn, HPos.CENTER);
 		this.add(actionBtn, 0, composNoms.size()+1, 2, 1);
+	}
+	
+	@Override
+	public void messageErreur(String message) {
+		msgErreur = new Label(message);
+		msgErreur.setTextFill(Color.color(1, 0, 0));
+		GridPane.setHalignment(msgErreur, HPos.CENTER);
+		this.add(msgErreur, 0, champs.size()+2,2,1);
 	}
 
 	@Override

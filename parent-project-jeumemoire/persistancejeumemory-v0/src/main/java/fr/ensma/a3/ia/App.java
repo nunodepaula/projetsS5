@@ -27,5 +27,13 @@ public class App
     	for(JoueurEntity ad : alljoueur) {
     		System.out.println(ad.getPrenom());
     	}
+    	
+    	JoueurEntity j = new JoueurEntity("jonhattan@gmail.com");
+    	
+    	if (joueurdao.getByValue(j).isEmpty()) {
+    		System.out.println("Email déjà enregistré");
+    	} else {
+    		System.out.println("Nouveau email");
+    	}
     }
 }

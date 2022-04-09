@@ -16,6 +16,7 @@ import fr.ensma.a3.ia.dao.entity.JoueurEntity;
 
 public class JoueurPoiDAO extends AbstractPoiDAO<JoueurEntity>{
 	private static Logger LOGGER = Logger.getLogger(JoueurPoiDAO.class.getName());
+	
 	@Override
 	public Optional<JoueurEntity> getById(int id) {
 		XSSFWorkbook bdd = openBase();
@@ -47,8 +48,9 @@ public class JoueurPoiDAO extends AbstractPoiDAO<JoueurEntity>{
 	@Override
 	public Optional<JoueurEntity> getByValue(JoueurEntity elem) {
 		List<JoueurEntity> listtemp = getAll();
+		String email = elem.getEmail();
 		for (JoueurEntity ad : listtemp) {
-			if (ad.equals(elem)) {
+			if(ad.getEmail().compareTo(email)==0) {
 				return Optional.of(ad);
 			}
 		}
@@ -81,11 +83,14 @@ public class JoueurPoiDAO extends AbstractPoiDAO<JoueurEntity>{
 	@Override
 	public void create(JoueurEntity elem) {
 		if (getByValue(elem).isEmpty()) {
+			// Initialisation de la base de données
 			XSSFWorkbook bdd = openBase();
 			Sheet tableadr = bdd.getSheet("Joueurs");
+			// Obtention du dernier id
 			int lrow = tableadr.getLastRowNum();
 			int lid = (int) tableadr.getRow(lrow).getCell(0).getNumericCellValue();
 			elem.setIdJ(lid + 1);
+			// Ajout du nouveau joueur à la base
 			Row ligne = tableadr.createRow(lrow + 1);
 			Cell cell = ligne.createCell(0);
 			cell.setCellValue(elem.getIdJ());
@@ -126,6 +131,7 @@ public class JoueurPoiDAO extends AbstractPoiDAO<JoueurEntity>{
 		if (!trouve) {
 			//TODO : Prévoir une exception ...
 			LOGGER.log(Level.INFO,"Element absent de la base ...");
+			
 		}
 		closeBase(bdd);
 	}

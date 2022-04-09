@@ -26,43 +26,43 @@ import jakarta.ws.rs.core.Response;
 public class BienvenuePresentation implements IEntreesObserver {
 
 	private String gameTitle;
-	
+
 	private List<ISceneManager> observeurs;
-	
+
 	private IBienvenueMediateur bienvenueVue;
-	
+
 	private EntreesPresentation entreesInscription;
 	private EntreesPresentation entreesConnexion;
-	
+
 	// Server Configurations
 	private String serverIp = "localhost";
 	private Integer serverPort = 8080;
-	private String inscriptionLink = "/services/creation/inscription";
-	private String connectionLink  = "/services/creation/connexion";
-	
+	private String inscriptionLink = "/services/creation/inscriptionmap";
+	private String connectionLink = "/services/creation/connexion";
+
 	/**
 	 * 
 	 */
 	public BienvenuePresentation(String title) {
 		// TODO Auto-generated constructor stub
 		this.gameTitle = title;
-		
+
 		observeurs = new ArrayList<ISceneManager>();
 	}
 
 	public BienvenuePresentation() {
 		this.gameTitle = "Memory Game";
 	}
-	
+
 	public void setMediateur(IBienvenueMediateur mediateur) {
 		this.bienvenueVue = mediateur;
 		ajouterEntrees();
 	}
-	
+
 	public String getTitle() {
 		return gameTitle;
 	}
-	
+
 	public void ajouterEntrees() {
 		List<String> composInscription = new ArrayList<String>();
 		composInscription.add("Email");
@@ -73,23 +73,23 @@ public class BienvenuePresentation implements IEntreesObserver {
 		entreesInscription.addObserver(this);
 		EntreesVue vueInscription = new EntreesVue(entreesInscription);
 		entreesInscription.setMediateur(vueInscription);
-		
+
 		bienvenueVue.ajouterInscription(vueInscription);
-		
+
 		List<String> composConnexion = new ArrayList<String>();
 		composConnexion.add("Email");
 		entreesConnexion = new EntreesPresentation("Connexion", composConnexion);
 		entreesConnexion.addObserver(this);
 		EntreesVue vueConnexion = new EntreesVue(entreesConnexion);
 		entreesConnexion.setMediateur(vueConnexion);
-		
+
 		bienvenueVue.ajouterConnexion(vueConnexion);
 	}
-	
+
 	private String getLink(String service) {
-		return "http://"+serverIp+":"+serverPort.toString()+service;
+		return "http://" + serverIp + ":" + serverPort.toString() + service;
 	}
-	
+
 	public String getServerIp() {
 		return serverIp;
 	}
@@ -110,35 +110,50 @@ public class BienvenuePresentation implements IEntreesObserver {
 		observeurs.add(obs);
 	}
 
+	public void propagateEvent(int status) {
+		if (status == 200) {
+			// Communication to the main screen for updating the current window
+			for (ISceneManager obs : observeurs) {
+				obs.choixPartie();
+			}
+		} else if (status == 409) {
+			//
+			entreesInscription.propagateError("Email déjà utilisé");
+		}
+	}
+	
 	@Override
 	public void actionEvent(EntreesPresentation presentation) {
 		// Get data inserted by the user
 		HashMap<String, String> player = presentation.getData();
-		
+
+		Response r;
 		Gson gson = new Gson();
 		Client restClient = ClientBuilder.newClient();
 		// Interpret Data accordingly to inscription or connection
-		if (presentation.equals(entreesInscription)){
+		if (presentation.equals(entreesInscription)) {
 			System.out.println("New Player Inscription");
-			
-			Response r = restClient.target(getLink(inscriptionLink))
-					.request(MediaType.APPLICATION_JSON).post(Entity.json(gson.toJson(player)));
-			
+
+			r = restClient.target(getLink(inscriptionLink)).request(MediaType.APPLICATION_JSON)
+					.post(Entity.json(gson.toJson(player)));
+
 			System.out.println(gson.toJson(player));
 			System.out.println(r.toString());
 			
-		}else if (presentation.equals(entreesConnexion)){
+			// Communication to the main screen for updating the current window
+			propagateEvent(r.getStatus());
+
+		} else if (presentation.equals(entreesConnexion)) {
 			System.out.println("Connexion of existing player");
-			
-			Response r = restClient.target(getLink(connectionLink))
-					.request(MediaType.APPLICATION_JSON).header("email", player.get("Email")).get();
-			
+
+			r = restClient.target(getLink(connectionLink)).request(MediaType.APPLICATION_JSON)
+					.header("email", player.get("Email")).get();
+
 			System.out.println(gson.toJson(player));
 			System.out.println(r.toString());
-		}
-		// Communication to the main screen for updating the current window
-		for (ISceneManager obs : observeurs) {
-			obs.choixPartie();
+
+			// Communication to the main screen for updating the current window
+			propagateEvent(r.getStatus());
 		}
 	}
 }

@@ -7,6 +7,13 @@ public class JoueurEntity {
 	private String prenom;
 	private String pseudo;
 	
+	public JoueurEntity() {	
+	}
+	
+	public JoueurEntity(String email) {
+		this.email = email;
+	}
+	
 	public Integer getIdJ() {
 		return idJ;
 	}

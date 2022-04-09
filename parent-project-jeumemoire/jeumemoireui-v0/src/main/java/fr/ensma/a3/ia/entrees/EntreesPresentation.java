@@ -53,6 +53,10 @@ public class EntreesPresentation {
 		return entreesVue.action();
 	}
 	
+	public void propagateError(String message) {
+		entreesVue.messageErreur(message);
+	}
+	
 	public void action() {
 		for (IEntreesObserver obs : observeurs) {
 			obs.actionEvent(this);
