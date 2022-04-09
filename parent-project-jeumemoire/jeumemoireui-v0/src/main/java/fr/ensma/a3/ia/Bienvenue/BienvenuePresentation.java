@@ -7,17 +7,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 import com.google.gson.Gson;
 
 import fr.ensma.a3.ia.ISceneManager;
 import fr.ensma.a3.ia.entrees.EntreesPresentation;
 import fr.ensma.a3.ia.entrees.EntreesVue;
 import fr.ensma.a3.ia.entrees.IEntreesObserver;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 /**
  * @author nunod
@@ -115,19 +115,26 @@ public class BienvenuePresentation implements IEntreesObserver {
 		// Get data inserted by the user
 		HashMap<String, String> player = presentation.getData();
 		
-		//Client restClient = ClientBuilder.newClient();
+		Gson gson = new Gson();
+		Client restClient = ClientBuilder.newClient();
 		// Interpret Data accordingly to inscription or connection
 		if (presentation.equals(entreesInscription)){
 			System.out.println("New Player Inscription");
 			
-			Gson gson = new Gson();
-			
-			//Response r = restClient.target(getLink(inscriptionLink)).request(MediaType.APPLICATION_JSON).get();
+			Response r = restClient.target(getLink(inscriptionLink))
+					.request(MediaType.APPLICATION_JSON).post(Entity.json(gson.toJson(player)));
 			
 			System.out.println(gson.toJson(player));
-			//System.out.println(r.toString());
+			System.out.println(r.toString());
+			
 		}else if (presentation.equals(entreesConnexion)){
 			System.out.println("Connexion of existing player");
+			
+			Response r = restClient.target(getLink(connectionLink))
+					.request(MediaType.APPLICATION_JSON).header("email", player.get("Email")).get();
+			
+			System.out.println(gson.toJson(player));
+			System.out.println(r.toString());
 		}
 		// Communication to the main screen for updating the current window
 		for (ISceneManager obs : observeurs) {

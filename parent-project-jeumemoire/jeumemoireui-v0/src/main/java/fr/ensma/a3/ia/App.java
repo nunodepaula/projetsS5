@@ -1,5 +1,6 @@
 package fr.ensma.a3.ia;
 
+
 import fr.ensma.a3.ia.Bienvenue.BienvenuePresentation;
 import fr.ensma.a3.ia.Bienvenue.BienvenueVue;
 import fr.ensma.a3.ia.ChoixPartie.ChoixPartiePresentation;
@@ -39,8 +40,13 @@ public class App extends Application implements ISceneManager
 		
 		this.stage = stage;
 		
+		serverTests();
 		fenetreInscription();
 		//partieFinie();
+	}
+	
+	private void serverTests() {
+		
 	}
 	
 	public static void main( String[] args )

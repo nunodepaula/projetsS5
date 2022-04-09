@@ -1,4 +1,4 @@
-package fr.ensma.a3.ia.memoire.api.joueur;
+package fr.ensma.a3.ia.rest;
 
 import java.util.HashMap;
 
@@ -47,4 +47,5 @@ public class JoueurBean {
 	public String getPseudo() {
 		return pseudo;
 	}
+
 }

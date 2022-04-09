@@ -30,6 +30,8 @@
 		<module>server-v0</module>
 
 		<module>Memoire-Message-API</module>
+		
+		<module>Memoire-Server</module>
 
 	</modules>
 

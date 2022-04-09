@@ -12,4 +12,6 @@ module fr.ensma.a3.ia {
 	requires javafx.graphics;
 	requires com.google.gson;
 	requires java.ws.rs;
+	requires jakarta.ws.rs;
+
 }

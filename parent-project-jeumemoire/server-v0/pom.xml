@@ -39,7 +39,7 @@
 			<version>4.12</version>
 		</dependency>
 		<dependency>
-			<groupId>fr.ensma.a3.ia</groupId>
+			<groupId>fr.ensma.a3.ia.memoire.api</groupId>
 			<artifactId>Memoire-Message-API</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
