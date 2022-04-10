@@ -22,6 +22,7 @@ public class ListePartieVue extends VBox implements IListePartieMediateur {
 	private Label title;
 	
 	private TableView<Partie> tableParties;
+	
 	/**
 	 * 
 	 */
@@ -39,6 +40,9 @@ public class ListePartieVue extends VBox implements IListePartieMediateur {
 		
 		tableParties = new TableView<Partie>();
 		
+		TableColumn<Partie,String> idCol = new TableColumn<Partie,String>("Id");
+		tableParties.getColumns().add(idCol);
+		tableParties.resizeColumn(idCol, 5);
 		TableColumn<Partie,String> pseudoCol = new TableColumn<Partie,String>("Créé par");
 		tableParties.getColumns().add(pseudoCol);
 		tableParties.resizeColumn(pseudoCol, 35);

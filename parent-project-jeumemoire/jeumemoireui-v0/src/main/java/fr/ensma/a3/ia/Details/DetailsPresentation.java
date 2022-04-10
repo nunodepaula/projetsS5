@@ -54,6 +54,10 @@ public class DetailsPresentation {
 		observeurs.add(obs);
 	}
 	
+	public HashMap<String,String> getCBValues(){
+		return vue.getCBValues();
+	}
+	
 	public void action() {
 		for (IDetailsObserver obs : observeurs) {
 			obs.actionEvent();

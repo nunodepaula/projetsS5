@@ -16,4 +16,5 @@ public interface IChoixPartieMediateur {
 	
 	public void setCompoParties(ListePartieVue vueParties);
 	public void setCompoDetails(DetailsVue vueDetails);
+	public void setCompoSelecPartie(DetailsVue vueSelecPartie);
 }

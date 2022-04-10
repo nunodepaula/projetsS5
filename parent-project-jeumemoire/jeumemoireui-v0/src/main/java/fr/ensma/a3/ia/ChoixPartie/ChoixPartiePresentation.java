@@ -21,6 +21,7 @@ public class ChoixPartiePresentation implements IDetailsObserver {
 	private IChoixPartieMediateur vue;
 	
 	private DetailsPresentation detailsPartie;
+	private DetailsPresentation selectionPartie;
 	private ListePartiePresentation parties;
 	
 	private String title;
@@ -70,6 +71,16 @@ public class ChoixPartiePresentation implements IDetailsObserver {
 		detailsPartie.setMediateur(vueDetails);
 		
 		vue.setCompoDetails(vueDetails);
+		
+		List<String> composSelectionPartie = new ArrayList<String>();
+		composSelectionPartie.add("Identifiant");
+		
+		selectionPartie = new DetailsPresentation(composSelectionPartie);
+		selectionPartie.addObserver(this);
+		DetailsVue vueSelecPartie = new DetailsVue(selectionPartie);
+		selectionPartie.setMediateur(vueSelecPartie);
+		
+		vue.setCompoSelecPartie(vueSelecPartie);
 	}
 	
 	private void addCBValues() {
@@ -89,5 +100,7 @@ public class ChoixPartiePresentation implements IDetailsObserver {
 	public void actionEvent() {
 		// TODO Auto-generated method stub
 		System.out.println("Action déclanché depuis la nouvelle partie");
+		
+		
 	}
 }

@@ -60,12 +60,17 @@ public class ChoixPartieVue extends GridPane implements IChoixPartieMediateur {
 	
 	@Override
 	public void setCompoParties(ListePartieVue vueParties) {
-		this.add(vueParties, 0,3,3,1);
+		this.add(vueParties, 0,3,3,2);
 	}
 	
 	@Override
 	public void setCompoDetails(DetailsVue vueDetails) {
 		this.add(vueDetails, 3, 3,1,1);
+	}
+	
+	@Override
+	public void setCompoSelecPartie(DetailsVue vueSelecPartie) {
+		this.add(vueSelecPartie, 3, 4, 1, 1);
 	}
 
 }
