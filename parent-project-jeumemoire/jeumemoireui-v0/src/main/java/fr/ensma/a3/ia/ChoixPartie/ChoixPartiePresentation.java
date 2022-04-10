@@ -37,6 +37,7 @@ public class ChoixPartiePresentation implements IDetailsObserver {
 		vue = mediateur;
 		configParties();
 		configEntrees();
+		addCBValues();
 	}
 	
 	public String getTitle() {
@@ -61,7 +62,7 @@ public class ChoixPartiePresentation implements IDetailsObserver {
 		List<String> composPartie = new ArrayList<String>();
 		composPartie.add("Difficulte");
 		composPartie.add("Taille Plateau");
-		composPartie.add("Nombre de Paires");
+		composPartie.add("Nombre de Joueurs");
 		
 		detailsPartie = new DetailsPresentation(composPartie);
 		detailsPartie.addObserver(this);
@@ -69,6 +70,19 @@ public class ChoixPartiePresentation implements IDetailsObserver {
 		detailsPartie.setMediateur(vueDetails);
 		
 		vue.setCompoDetails(vueDetails);
+	}
+	
+	private void addCBValues() {
+		detailsPartie.ajouterInfoCB("Taille Plateau", "4");
+		detailsPartie.ajouterInfoCB("Taille Plateau", "7");
+		detailsPartie.ajouterInfoCB("Taille Plateau", "10");
+		
+		detailsPartie.ajouterInfoCB("Difficulte", "1");
+		detailsPartie.ajouterInfoCB("Difficulte", "2");
+		
+		for (Integer i = 2; i <= 8; i++) {
+			detailsPartie.ajouterInfoCB("Nombre de Joueurs", i.toString());
+		}
 	}
 
 	@Override

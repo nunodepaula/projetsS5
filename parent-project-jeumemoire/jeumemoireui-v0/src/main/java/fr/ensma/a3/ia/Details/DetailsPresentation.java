@@ -46,6 +46,10 @@ public class DetailsPresentation {
 		vue.ajouterChamps(composIndices);
 	}
 	
+	public void ajouterInfoCB(String cbName, String info) {
+		vue.ajouterInfoCB(cbName, info);
+	}
+	
 	public void addObserver(IDetailsObserver obs) {
 		observeurs.add(obs);
 	}

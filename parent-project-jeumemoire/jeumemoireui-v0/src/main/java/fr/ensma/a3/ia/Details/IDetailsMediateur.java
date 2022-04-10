@@ -12,4 +12,6 @@ import java.util.HashMap;
 public interface IDetailsMediateur {
 
 	public void ajouterChamps(HashMap<String,Integer> composNoms);
+	public void ajouterInfoCB(String labelName, String datum);
+	public HashMap<String,String> getCBValues();
 }
