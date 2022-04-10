@@ -78,6 +78,7 @@ public class MemoryPartieEndPoint {
 			PartieEntity pEntity = new PartieEntity(id, message.getLongueurPlateau(), message.getMode());
 			dbPartie.create(pEntity);
 			message.setId(id);
+			createurIdentifiant.put(email, joueur.getIdJ());
 			PartieBean partie = new PartieBean(message.getNomCreateur(), message.getLongueurPlateau(),
 					message.getNbPaires(), message.getMode(), message.getNbJoueurs(), id);
 			// Ajout de la nouvelle partie aux parties courrantes
