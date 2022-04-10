@@ -119,6 +119,8 @@ public class BienvenuePresentation implements IEntreesObserver {
 		} else if (status == 409) {
 			//
 			entreesInscription.propagateError("Email déjà utilisé");
+		} else if (status == 404) {
+			entreesConnexion.propagateError("Joueur non trouvé");
 		}
 	}
 	

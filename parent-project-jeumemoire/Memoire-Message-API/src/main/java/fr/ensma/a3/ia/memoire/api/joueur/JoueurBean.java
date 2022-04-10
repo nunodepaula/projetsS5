@@ -9,6 +9,9 @@ public class JoueurBean {
 	private String email;
 	private String pseudo;
 	
+	public JoueurBean() {
+		
+	}
 	public JoueurBean(HashMap<String, String> joueur) {
 		this.nom = joueur.get("Nom");
 		this.prenom = joueur.get("Prenom");

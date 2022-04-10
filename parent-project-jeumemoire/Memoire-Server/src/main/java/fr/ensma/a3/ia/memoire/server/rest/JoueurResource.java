@@ -43,27 +43,15 @@ public class JoueurResource {
 		
 		JoueurEntity j = new JoueurEntity(monjoueur.getEmail());
 		
-		System.out.println(monjoueur.getEmail());
-		String email = j.getEmail();
-		System.out.println("Current mails :");
-		List<JoueurEntity> js = joueurDB.getAll();
-		for (JoueurEntity je : js) {
-			System.out.println(je.getEmail());
-			if(je.getEmail().compareTo(email)==0) {
-				System.out.println("  --Le Même--");
-			}else {
-				System.out.println("  --Pas celui");
-			}
-		}
-		System.out.println("---------------");
-		
+		System.out.println("Avant if");
 		if (joueurDB.getByValue(j).isEmpty()) {
+			System.out.println("Avant l'ajout du joueur à la liste");
 			joueurs.add(monjoueur);
 			
 			j.setNom(monjoueur.getNom());
 			j.setPrenom(monjoueur.getPrenom());
 			j.setPseudo(monjoueur.getPseudo());
-			
+	
 			joueurDB.create(j);
 			
 			System.out.println("Nouveau Joueur :");
@@ -84,21 +72,60 @@ public class JoueurResource {
 	public Response joueurRecord(JoueurBean unjoueur) {
 		JoueurPhysique monjoueur = new JoueurPhysique(unjoueur.getNom(), unjoueur.getPrenom(), unjoueur.getEmail(),
 				unjoueur.getPseudo(), null);
-		joueurs.add(monjoueur);
 		
-		System.out.println("Nouveau Joueur :");
-		System.out.println("    Nom        :" + unjoueur.getNom());
-		System.out.println("    Prénom     :" + unjoueur.getPrenom());
-		System.out.println("    Email      :" + unjoueur.getEmail());
-		System.out.println("    Pseudo     :" + unjoueur.getPseudo());
+		JoueurEntity j = new JoueurEntity(monjoueur.getEmail());
 		
-		return Response.ok(monjoueur.getNom()).header("Access-Control-Allow-Origin", "*").build();
+		System.out.println(monjoueur.getEmail());
+		
+		if (joueurDB.getByValue(j).isEmpty()) {
+			joueurs.add(monjoueur);
+			
+			j.setNom(monjoueur.getNom());
+			j.setPrenom(monjoueur.getPrenom());
+			j.setPseudo(monjoueur.getPseudo());
+			
+			joueurDB.create(j);
+			
+			System.out.println("Nouveau Joueur :");
+			System.out.println("    Nom        :" + unjoueur.getNom());
+			System.out.println("    Prénom     :" + unjoueur.getPrenom());
+			System.out.println("    Email      :" + unjoueur.getEmail());
+			System.out.println("    Pseudo     :" + unjoueur.getPseudo());
+			
+			return Response.ok(monjoueur.getNom()).build();
+		}
+		
+		return Response.status(409).build();
 	}
 	@GET
 	@Path("/connexion")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response joueurRecordEmail(@HeaderParam("email") String email) {
+		JoueurEntity j = new JoueurEntity(email);
+		
+		if (joueurDB.getByValue(j).isEmpty()) {
+			return Response.status(404).build();
+		}
+		
+		JoueurEntity unjoueur = joueurDB.getByValue(j).get();
+		
+		JoueurPhysique monjoueur = new JoueurPhysique(unjoueur.getNom(), unjoueur.getPrenom(), unjoueur.getEmail(),
+				unjoueur.getPseudo(), null);
+		
+		joueurs.add(monjoueur);
 		emails.add(email);
+		
+		JoueurBean jb = new JoueurBean();
+		jb.setNom(monjoueur.getNom());
+		jb.setPrenom(monjoueur.getPrenom());
+		jb.setEmail(monjoueur.getEmail());
+		jb.setPseudo(monjoueur.getPseudo());
+		
+		String jbStr = new Gson().toJson(jb);
+		
+		System.out.println("Joueur JSON : ");
+		System.out.println(jbStr);
+		
 		return Response.ok(email).build();
 	}
 }

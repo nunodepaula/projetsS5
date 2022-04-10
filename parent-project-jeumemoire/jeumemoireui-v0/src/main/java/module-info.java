@@ -13,5 +13,4 @@ module fr.ensma.a3.ia {
 	requires com.google.gson;
 	requires java.ws.rs;
 	requires jakarta.ws.rs;
-
 }

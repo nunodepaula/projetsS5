@@ -14,9 +14,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import fr.ensma.a3.ia.dao.entity.JoueurEntity;
 
-public class JoueurPoiDAO extends AbstractPoiDAO<JoueurEntity>{
+public class JoueurPoiDAO extends AbstractPoiDAO<JoueurEntity> {
 	private static Logger LOGGER = Logger.getLogger(JoueurPoiDAO.class.getName());
-	
+
 	@Override
 	public Optional<JoueurEntity> getById(int id) {
 		XSSFWorkbook bdd = openBase();
@@ -28,8 +28,8 @@ public class JoueurPoiDAO extends AbstractPoiDAO<JoueurEntity>{
 		while (iterator.hasNext() && !trouve) {
 			Row ligne = iterator.next();
 			joueur = new JoueurEntity();
-			if (id == (int)ligne.getCell(0).getNumericCellValue()) {
-				joueur.setIdJ((int)ligne.getCell(0).getNumericCellValue());
+			if (id == (int) ligne.getCell(0).getNumericCellValue()) {
+				joueur.setIdJ((int) ligne.getCell(0).getNumericCellValue());
 				joueur.setEmail((ligne.getCell(1).getStringCellValue()));
 				joueur.setNom(ligne.getCell(2).getStringCellValue());
 				joueur.setPrenom(ligne.getCell(3).getStringCellValue());
@@ -42,15 +42,18 @@ public class JoueurPoiDAO extends AbstractPoiDAO<JoueurEntity>{
 			return Optional.of(joueur);
 		}
 		closeBase(bdd);
-		return Optional.empty();		
+		return Optional.empty();
 	}
-	
+
 	@Override
 	public Optional<JoueurEntity> getByValue(JoueurEntity elem) {
+		System.out.println("Debut du get by value");
 		List<JoueurEntity> listtemp = getAll();
+		System.out.println("Avant Get email");
 		String email = elem.getEmail();
+		System.out.println("Avant for du get by value");
 		for (JoueurEntity ad : listtemp) {
-			if(ad.getEmail().compareTo(email)==0) {
+			if (ad.getEmail().compareTo(email) == 0) {
 				return Optional.of(ad);
 			}
 		}
@@ -63,21 +66,51 @@ public class JoueurPoiDAO extends AbstractPoiDAO<JoueurEntity>{
 		Sheet tableadr = bdd.getSheet("Joueurs");
 		ArrayList<JoueurEntity> listej = new ArrayList<JoueurEntity>();
 		Iterator<Row> iterator = tableadr.iterator();
-		iterator.next();
+		Row ligne = iterator.next();
+		
 		while (iterator.hasNext()) {
-			Row ligne = iterator.next();
+			ligne = iterator.next();
 			JoueurEntity joueur = new JoueurEntity();
 			Iterator<Cell> cellIterator = ligne.iterator();
-			Cell cellule = cellIterator.next();
-			joueur.setIdJ((int)cellule.getNumericCellValue());
-			joueur.setEmail((ligne.getCell(1).getStringCellValue()));
-			joueur.setNom(ligne.getCell(2).getStringCellValue());
-			joueur.setPrenom(ligne.getCell(3).getStringCellValue());
-			joueur.setPseudo(ligne.getCell(4).getStringCellValue());
+			
+			Cell cellule;
+			if (cellIterator.hasNext()) {
+				cellule = cellIterator.next();
+			} else {
+				continue;
+			}
+	
+			joueur.setIdJ((int) cellule.getNumericCellValue());
+			
+			if (ligne.getCell(1) != null) {
+				joueur.setEmail((ligne.getCell(1).getStringCellValue()));
+			}
+			if (ligne.getCell(2) != null) {
+				joueur.setNom(ligne.getCell(2).getStringCellValue());
+			}
+			if (ligne.getCell(3) != null) {
+				joueur.setPrenom(ligne.getCell(3).getStringCellValue());
+			}
+			if (ligne.getCell(4) != null) {
+				joueur.setPseudo(ligne.getCell(4).getStringCellValue());
+			}
 			listej.add(joueur);
 		}
 		closeBase(bdd);
 		return listej;
+	}
+	
+	private int lastId() {
+		List<JoueurEntity> all = getAll();
+		int id = 1;
+		
+		for (JoueurEntity j : all) {
+			if (id <= j.getIdJ()) {
+				id = j.getIdJ() + 1;
+			}
+		}
+		
+		return id;
 	}
 
 	@Override
@@ -88,8 +121,8 @@ public class JoueurPoiDAO extends AbstractPoiDAO<JoueurEntity>{
 			Sheet tableadr = bdd.getSheet("Joueurs");
 			// Obtention du dernier id
 			int lrow = tableadr.getLastRowNum();
-			int lid = (int) tableadr.getRow(lrow).getCell(0).getNumericCellValue();
-			elem.setIdJ(lid + 1);
+			int lid = lastId();
+			elem.setIdJ(lid);
 			// Ajout du nouveau joueur à la base
 			Row ligne = tableadr.createRow(lrow + 1);
 			Cell cell = ligne.createCell(0);
@@ -105,8 +138,8 @@ public class JoueurPoiDAO extends AbstractPoiDAO<JoueurEntity>{
 			writeBase(bdd);
 			closeBase(bdd);
 		} else {
-			//TODO : Prévoir une exception ...
-			LOGGER.log(Level.INFO,"Element Deja dans la base ...");
+			// TODO : Prévoir une exception ...
+			LOGGER.log(Level.INFO, "Element Deja dans la base ...");
 		}
 	}
 
@@ -129,9 +162,9 @@ public class JoueurPoiDAO extends AbstractPoiDAO<JoueurEntity>{
 			}
 		}
 		if (!trouve) {
-			//TODO : Prévoir une exception ...
-			LOGGER.log(Level.INFO,"Element absent de la base ...");
-			
+			// TODO : Prévoir une exception ...
+			LOGGER.log(Level.INFO, "Element absent de la base ...");
+
 		}
 		closeBase(bdd);
 	}
@@ -152,11 +185,9 @@ public class JoueurPoiDAO extends AbstractPoiDAO<JoueurEntity>{
 			}
 		}
 		if (!trouve) {
-			//TODO : Prévoir une exception ...
-			LOGGER.log(Level.INFO,"Element absent de la base ...");
+			// TODO : Prévoir une exception ...
+			LOGGER.log(Level.INFO, "Element absent de la base ...");
 		}
 		closeBase(bdd);
-	}	
+	}
 }
-
-
