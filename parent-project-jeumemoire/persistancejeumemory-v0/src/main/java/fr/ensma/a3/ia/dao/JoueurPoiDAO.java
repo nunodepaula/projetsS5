@@ -47,11 +47,9 @@ public class JoueurPoiDAO extends AbstractPoiDAO<JoueurEntity> {
 
 	@Override
 	public Optional<JoueurEntity> getByValue(JoueurEntity elem) {
-		System.out.println("Debut du get by value");
 		List<JoueurEntity> listtemp = getAll();
-		System.out.println("Avant Get email");
 		String email = elem.getEmail();
-		System.out.println("Avant for du get by value");
+
 		for (JoueurEntity ad : listtemp) {
 			if (ad.getEmail().compareTo(email) == 0) {
 				return Optional.of(ad);
@@ -100,7 +98,8 @@ public class JoueurPoiDAO extends AbstractPoiDAO<JoueurEntity> {
 		return listej;
 	}
 	
-	private int lastId() {
+	@Override
+	public int lastId() {
 		List<JoueurEntity> all = getAll();
 		int id = 1;
 		

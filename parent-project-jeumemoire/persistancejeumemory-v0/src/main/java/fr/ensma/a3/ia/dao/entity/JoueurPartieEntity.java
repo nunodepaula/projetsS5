@@ -4,7 +4,17 @@ public class JoueurPartieEntity {
 	private Integer idJP;
 	private Integer idPartie;
 	private Integer  idJoueur;
-	private Integer nbPair;
+	private Integer nbPair; // Nombre de paires trouvés par le joueur
+	
+	public JoueurPartieEntity() {
+		
+	}
+	
+	public JoueurPartieEntity(Integer idPartie, Integer idJoueur, Integer nbPair) {
+		this.idPartie = idPartie;
+		this.idJoueur = idJoueur;
+		this.nbPair = nbPair;
+	}
 	
 	public Integer getIdJP() {
 		return idJP;

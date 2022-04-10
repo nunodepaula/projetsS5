@@ -9,6 +9,15 @@ public class PartieBean {
 	private Integer nbJoueurs;
 	private Integer identifiant;
 
+	public PartieBean(String createur, Integer taillePlateau, Integer nbPaires, Integer mode, Integer nbJoueurs)
+	{
+		this.nomCreateur = createur;
+		this.longueurPlateau = taillePlateau;
+		this.nbPaires = nbPaires;
+		this.mode = mode;
+		this.nbJoueurs = nbJoueurs;
+	}
+	
 	public PartieBean(String createur, Integer taillePlateau, Integer nbPaires, Integer mode, Integer nbJoueurs,
 			Integer id) {
 		this.nomCreateur = createur;

@@ -14,9 +14,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import fr.ensma.a3.ia.dao.entity.JoueurPartieEntity;
 
-
-public class JoueurPartiePoiDAO extends AbstractPoiDAO<JoueurPartieEntity>{
+public class JoueurPartiePoiDAO extends AbstractPoiDAO<JoueurPartieEntity> {
 	private static Logger LOGGER = Logger.getLogger(JoueurPoiDAO.class.getName());
+
 	@Override
 	public Optional<JoueurPartieEntity> getById(int id) {
 		XSSFWorkbook bdd = openBase();
@@ -28,11 +28,11 @@ public class JoueurPartiePoiDAO extends AbstractPoiDAO<JoueurPartieEntity>{
 		while (iterator.hasNext() && !trouve) {
 			Row ligne = iterator.next();
 			joueurpartie = new JoueurPartieEntity();
-			if (id == (int)ligne.getCell(0).getNumericCellValue()) {
-				joueurpartie.setIdJP((int)ligne.getCell(0).getNumericCellValue());
-				joueurpartie.setIdPartie((int)ligne.getCell(1).getNumericCellValue());
-				joueurpartie.setJoueur((int)ligne.getCell(2).getNumericCellValue());
-				joueurpartie.setNbPair((int)ligne.getCell(3).getNumericCellValue());
+			if (id == (int) ligne.getCell(0).getNumericCellValue()) {
+				joueurpartie.setIdJP((int) ligne.getCell(0).getNumericCellValue());
+				joueurpartie.setIdPartie((int) ligne.getCell(1).getNumericCellValue());
+				joueurpartie.setJoueur((int) ligne.getCell(2).getNumericCellValue());
+				joueurpartie.setNbPair((int) ligne.getCell(3).getNumericCellValue());
 				trouve = true;
 			}
 		}
@@ -41,8 +41,9 @@ public class JoueurPartiePoiDAO extends AbstractPoiDAO<JoueurPartieEntity>{
 			return Optional.of(joueurpartie);
 		}
 		closeBase(bdd);
-		return Optional.empty();		
+		return Optional.empty();
 	}
+
 	@Override
 	public Optional<JoueurPartieEntity> getByValue(JoueurPartieEntity elem) {
 		List<JoueurPartieEntity> listtemp = getAll();
@@ -60,29 +61,64 @@ public class JoueurPartiePoiDAO extends AbstractPoiDAO<JoueurPartieEntity>{
 		Sheet tableadr = bdd.getSheet("JoueursParties");
 		ArrayList<JoueurPartieEntity> listeadr = new ArrayList<JoueurPartieEntity>();
 		Iterator<Row> iterator = tableadr.iterator();
-		iterator.next();
+		Row ligne = iterator.next();
+
 		while (iterator.hasNext()) {
-			Row ligne = iterator.next();
+			ligne = iterator.next();
 			JoueurPartieEntity joueurpartie = new JoueurPartieEntity();
 			Iterator<Cell> cellIterator = ligne.iterator();
-			Cell cellule = cellIterator.next();
-			joueurpartie.setIdJP((int)ligne.getCell(0).getNumericCellValue());
-			joueurpartie.setIdPartie((int)ligne.getCell(1).getNumericCellValue());
-			joueurpartie.setJoueur((int)ligne.getCell(2).getNumericCellValue());
-			joueurpartie.setNbPair((int)ligne.getCell(3).getNumericCellValue());
+
+			Cell cellule;
+			if (cellIterator.hasNext()) {
+				cellule = cellIterator.next();
+			} else {
+				continue;
+			}
+
+			if (ligne.getCell(0) != null) {
+				joueurpartie.setIdJP((int) ligne.getCell(0).getNumericCellValue());
+			}
+			if (ligne.getCell(1) != null) {
+				joueurpartie.setIdPartie((int) ligne.getCell(1).getNumericCellValue());
+			}
+			if (ligne.getCell(2) != null) {
+				joueurpartie.setJoueur((int) ligne.getCell(2).getNumericCellValue());
+			}
+			if (ligne.getCell(3) != null) {
+				joueurpartie.setNbPair((int) ligne.getCell(3).getNumericCellValue());
+			}
+
 			listeadr.add(joueurpartie);
 		}
+
 		closeBase(bdd);
 		return listeadr;
 	}
+	
+	@Override
+	public int lastId() {
+		List<JoueurPartieEntity> all = getAll();
+		int id = 1;
+		
+		for (JoueurPartieEntity jp : all) {
+			if (id <= jp.getIdJP()) {
+				id = jp.getIdJP() + 1;
+			}
+		}
+		
+		return id;
+	}
+
 	@Override
 	public void create(JoueurPartieEntity elem) {
 		if (getByValue(elem).isEmpty()) {
 			XSSFWorkbook bdd = openBase();
 			Sheet tableadr = bdd.getSheet("Parties");
+			
 			int lrow = tableadr.getLastRowNum();
-			int lid = (int) tableadr.getRow(lrow).getCell(0).getNumericCellValue();
-			elem.setIdPartie(lid + 1);
+			int lid = lastId();
+			elem.setIdPartie(lid);
+			
 			Row ligne = tableadr.createRow(lrow + 1);
 			Cell cell = ligne.createCell(0);
 			cell.setCellValue(elem.getIdPartie());
@@ -94,8 +130,8 @@ public class JoueurPartiePoiDAO extends AbstractPoiDAO<JoueurPartieEntity>{
 			writeBase(bdd);
 			closeBase(bdd);
 		} else {
-			//TODO : Prévoir une exception ...
-			LOGGER.log(Level.INFO,"Element Deja dans la base ...");
+			// TODO : Prévoir une exception ...
+			LOGGER.log(Level.INFO, "Element Deja dans la base ...");
 		}
 	}
 
@@ -117,8 +153,8 @@ public class JoueurPartiePoiDAO extends AbstractPoiDAO<JoueurPartieEntity>{
 			}
 		}
 		if (!trouve) {
-			//TODO : Prévoir une exception ...
-			LOGGER.log(Level.INFO,"Element absent de la base ...");
+			// TODO : Prévoir une exception ...
+			LOGGER.log(Level.INFO, "Element absent de la base ...");
 		}
 		closeBase(bdd);
 	}
@@ -139,9 +175,9 @@ public class JoueurPartiePoiDAO extends AbstractPoiDAO<JoueurPartieEntity>{
 			}
 		}
 		if (!trouve) {
-			//TODO : Prévoir une exception ...
-			LOGGER.log(Level.INFO,"Element absent de la base ...");
+			// TODO : Prévoir une exception ...
+			LOGGER.log(Level.INFO, "Element absent de la base ...");
 		}
 		closeBase(bdd);
-	}	
+	}
 }

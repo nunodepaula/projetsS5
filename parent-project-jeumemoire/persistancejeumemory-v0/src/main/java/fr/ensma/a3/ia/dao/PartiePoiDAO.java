@@ -14,8 +14,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import fr.ensma.a3.ia.dao.entity.PartieEntity;
 
-public class PartiePoiDAO extends AbstractPoiDAO<PartieEntity>{
+public class PartiePoiDAO extends AbstractPoiDAO<PartieEntity> {
 	private static Logger LOGGER = Logger.getLogger(JoueurPoiDAO.class.getName());
+
 	@Override
 	public Optional<PartieEntity> getById(int id) {
 		XSSFWorkbook bdd = openBase();
@@ -27,10 +28,10 @@ public class PartiePoiDAO extends AbstractPoiDAO<PartieEntity>{
 		while (iterator.hasNext() && !trouve) {
 			Row ligne = iterator.next();
 			partie = new PartieEntity();
-			if (id == (int)ligne.getCell(0).getNumericCellValue()) {
-				partie.setIdPartie((int)ligne.getCell(0).getNumericCellValue());
-				partie.setTaille((int)ligne.getCell(1).getNumericCellValue());
-				partie.setDifficulte((int)ligne.getCell(2).getNumericCellValue());
+			if (id == (int) ligne.getCell(0).getNumericCellValue()) {
+				partie.setIdPartie((int) ligne.getCell(0).getNumericCellValue());
+				partie.setTaille((int) ligne.getCell(1).getNumericCellValue());
+				partie.setDifficulte((int) ligne.getCell(2).getNumericCellValue());
 				trouve = true;
 			}
 		}
@@ -39,8 +40,9 @@ public class PartiePoiDAO extends AbstractPoiDAO<PartieEntity>{
 			return Optional.of(partie);
 		}
 		closeBase(bdd);
-		return Optional.empty();		
+		return Optional.empty();
 	}
+
 	@Override
 	public Optional<PartieEntity> getByValue(PartieEntity elem) {
 		List<PartieEntity> listtemp = getAll();
@@ -58,28 +60,59 @@ public class PartiePoiDAO extends AbstractPoiDAO<PartieEntity>{
 		Sheet tableadr = bdd.getSheet("Parties");
 		ArrayList<PartieEntity> listeadr = new ArrayList<PartieEntity>();
 		Iterator<Row> iterator = tableadr.iterator();
-		iterator.next();
+		Row ligne = iterator.next();
+
 		while (iterator.hasNext()) {
-			Row ligne = iterator.next();
+			ligne = iterator.next();
 			PartieEntity partie = new PartieEntity();
 			Iterator<Cell> cellIterator = ligne.iterator();
-			Cell cellule = cellIterator.next();
-			partie.setIdPartie((int)ligne.getCell(0).getNumericCellValue());
-			partie.setTaille((int)ligne.getCell(1).getNumericCellValue());
-			partie.setDifficulte((int)ligne.getCell(2).getNumericCellValue());
+
+			Cell cellule;
+			if (cellIterator.hasNext()) {
+				cellule = cellIterator.next();
+			} else {
+				continue;
+			}
+
+			if (ligne.getCell(0) != null) {
+				partie.setIdPartie((int) ligne.getCell(0).getNumericCellValue());
+			}
+			if (ligne.getCell(1) != null) {
+				partie.setTaille((int) ligne.getCell(1).getNumericCellValue());
+			}
+			if (ligne.getCell(2) != null) {
+				partie.setDifficulte((int) ligne.getCell(2).getNumericCellValue());
+			}
 			listeadr.add(partie);
 		}
 		closeBase(bdd);
 		return listeadr;
 	}
+	
+	@Override
+	public int lastId(){
+		List<PartieEntity> all = getAll();
+		int id = 1;
+		
+		for (PartieEntity p : all) {
+			if (id <= p.getId()) {
+				id = p.getId() + 1;
+			}
+		}
+		
+		return id;
+	}
+
 	@Override
 	public void create(PartieEntity elem) {
 		if (getByValue(elem).isEmpty()) {
 			XSSFWorkbook bdd = openBase();
 			Sheet tableadr = bdd.getSheet("Parties");
+			
 			int lrow = tableadr.getLastRowNum();
-			int lid = (int) tableadr.getRow(lrow).getCell(0).getNumericCellValue();
-			elem.setIdPartie(lid + 1);
+			int lid = lastId();
+			elem.setIdPartie(lid);
+			
 			Row ligne = tableadr.createRow(lrow + 1);
 			Cell cell = ligne.createCell(0);
 			cell.setCellValue(elem.getId());
@@ -91,8 +124,8 @@ public class PartiePoiDAO extends AbstractPoiDAO<PartieEntity>{
 			writeBase(bdd);
 			closeBase(bdd);
 		} else {
-			//TODO : Prévoir une exception ...
-			LOGGER.log(Level.INFO,"Element Deja dans la base ...");
+			// TODO : Prévoir une exception ...
+			LOGGER.log(Level.INFO, "Element Deja dans la base ...");
 		}
 	}
 
@@ -114,8 +147,8 @@ public class PartiePoiDAO extends AbstractPoiDAO<PartieEntity>{
 			}
 		}
 		if (!trouve) {
-			//TODO : Prévoir une exception ...
-			LOGGER.log(Level.INFO,"Element absent de la base ...");
+			// TODO : Prévoir une exception ...
+			LOGGER.log(Level.INFO, "Element absent de la base ...");
 		}
 		closeBase(bdd);
 	}
@@ -136,12 +169,10 @@ public class PartiePoiDAO extends AbstractPoiDAO<PartieEntity>{
 			}
 		}
 		if (!trouve) {
-			//TODO : Prévoir une exception ...
-			LOGGER.log(Level.INFO,"Element absent de la base ...");
+			// TODO : Prévoir une exception ...
+			LOGGER.log(Level.INFO, "Element absent de la base ...");
 		}
 		closeBase(bdd);
-	}	
-	
-	
-	
+	}
+
 }
